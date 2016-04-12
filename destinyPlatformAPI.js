@@ -4,12 +4,12 @@ exports.getItems = function(page, callback) {
 
 	var options = {
 	  host: 'www.bungie.net',
-	  path: '/Platform/Destiny/Explorer/Items/?&buckets=PrimaryWeapon&count=10&page='+page,
+	  path: '/Platform/Destiny/Explorer/Items/?&types=Weapon&count=10&page='+page,
 	  headers: {'X-API-Key': '4c26e058e51742cc972a16cf20c6b6a3'}
 	};
 
 	var req = http.get(options, function(res) {
-		console.log(options);
+
 	  var bodyChunks = [];
 	  res.on('data', function(chunk) {
 			bodyChunks.push(chunk);
