@@ -5,18 +5,18 @@
 </head>
 <body>
     <div class="col-sm-6">
-        <img class="img-responsive" src="../../public/images/destinyIDLogo.png">
+        <img class="img-responsive" src="../../images/destinyIDLogo.png">
     </div>
-  <div id="pagination" class="col-sm-6">
-    <span class="fa-stack fa-lg prev">
-      <i class="fa fa-stop fa-stack-2x"></i>
-      <i class="fa fa-chevron-left fa-stack-1x fa-inverse"></i>
-    </span>
-    <span class="fa-stack fa-lg next">
-      <i class="fa fa-stop fa-stack-2x"></i>
-      <i class="fa fa-chevron-right fa-stack-1x fa-inverse"></i>
-    </span>
-  </div>
+    <div id="pagination" class="col-sm-6">
+        <span class="fa-stack fa-lg next">
+          <i class="fa fa-stop fa-stack-2x"></i>
+          <i class="fa fa-chevron-right fa-stack-1x fa-inverse"></i>
+        </span>
+        <span class="fa-stack fa-lg prev">
+          <i class="fa fa-stop fa-stack-2x"></i>
+          <i class="fa fa-chevron-left fa-stack-1x fa-inverse"></i>
+        </span>
+    </div>
   <div id="itemsList">
   <% for(var i in itemsJSON.Response.data.itemHashes) { %>
     <div id="<%- itemsJSON.Response.data.itemHashes[i] %>" class="itemBlock col-sm-3"></div>
