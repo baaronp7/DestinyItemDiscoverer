@@ -1,10 +1,22 @@
-exports.getItems = function(page, callback) {
+exports.getItems = function(categories, rarity, page, callback) {
 	var contentsJSON = null;
 	var http = require('http');
+	var path = '/Platform/Destiny/Explorer/Items/?count=10';
+
+	if(categories != undefined)
+		path += '&categories=' + categories;
+
+	if(rarity != undefined)
+		path += '&rarity=' + rarity;
+
+	if(page != undefined)
+		path += '&page=' + page;
+	else
+		path += '&page=0';
 
 	var options = {
 	  host: 'www.bungie.net',
-	  path: '/Platform/Destiny/Explorer/Items/?&types=Weapon&count=10&page='+page,
+	  path: path,
 	  headers: {'X-API-Key': '4c26e058e51742cc972a16cf20c6b6a3'}
 	};
 

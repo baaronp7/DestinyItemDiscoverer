@@ -8,6 +8,21 @@
         <img class="img-responsive" src="../../images/destinyIDLogo.png">
     </div>
     <div id="pagination" class="col-sm-12">
+      <div class="dropdown col-sm-6">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          Rareity
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li><a href="/?rarity=Exotic">Exotic</a></li>
+          <li><a href="/?rarity=Superior">Superior</a></li>
+          <li><a href="/?rarity=Rare">Rare</a></li>
+          <li><a href="/?rarity=Common">Common</a></li>
+          <li><a href="/?rarity=Basic">Basic</a></li>
+          <li><a href="/?rarity=Currency">Currency</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-6">
         <span class="fa-stack fa-lg next">
           <i class="fa fa-stop fa-stack-2x"></i>
           <i class="fa fa-chevron-right fa-stack-1x fa-inverse"></i>
@@ -16,6 +31,7 @@
           <i class="fa fa-stop fa-stack-2x"></i>
           <i class="fa fa-chevron-left fa-stack-1x fa-inverse"></i>
         </span>
+      </div>
     </div>
   <div id="itemsList">
   <% for(var i in itemsJSON.Response.data.itemHashes) { %>
@@ -30,18 +46,21 @@
 <script>
 $(document).ready(function() {
   var page = GetURLParameter('page');
+  var rarity = GetURLParameter('rarity');
   if(page === undefined)
     page = 0;
+  if(rarity === undefined)
+      rarity = 'Common';
   $('div#pagination span.prev').click(function() {
     if(page > 0) {
       var prevPage = parseInt(page) - 1;
-      var url = '//' + window.location.host + '/?page=' + prevPage;
+      var url = '//' + window.location.host + '/?rarity=' + rarity + '&page=' + prevPage;
       window.location = url;
     }
   });
   $('div#pagination span.next').click(function() {
     var nextPage = parseInt(page) + 1;
-    var url = '//' + window.location.host + '/?page=' + nextPage;
+    var url = '//' + window.location.host + '/?rarity=' + rarity + '&page=' + nextPage;
     window.location = url;
   });
   $('div.itemBlock').each( function( index, itemBlock ) {

@@ -6,6 +6,7 @@ var less = require('less-middleware');
 var app = express();
 
 var destinyAPI = require('./destinyPlatformAPI');
+
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
@@ -14,10 +15,12 @@ app.use(express.static(__dirname + '/public'));
 app.use(partial());
 
 app.get('/', function (req, res) {
+  var categories = req.query.categories;
+  var rarity = req.query.rarity;
   var page = req.query.page;
   if(page == undefined)
-    page = 0
-  destinyAPI.getItems(page, function(itemsJSON) {
+    page = 0;
+  destinyAPI.getItems(categories, rarity, page, function(itemsJSON) {
     res.render('pages/items', {
       cssFiles: ['/css/home.css'],
       itemsJSON: itemsJSON
