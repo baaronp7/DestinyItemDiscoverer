@@ -21,9 +21,11 @@ app.get('/', function (req, res) {
   if(page == undefined)
     page = 0;
   destinyAPI.getItems(categories, rarity, page, function(itemsJSON) {
+    var numPages = parseInt(itemsJSON.Response.data.totalResults) / parseInt(itemsJSON.Response.data.query.itemsPerPage)
     res.render('pages/items', {
       cssFiles: ['/css/home.css'],
-      itemsJSON: itemsJSON
+      itemsJSON: itemsJSON,
+      numPages: numPages
     });
   });
 });

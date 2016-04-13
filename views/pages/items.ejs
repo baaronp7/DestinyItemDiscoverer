@@ -7,20 +7,32 @@
     <div id="logoHeader" class="col-sm-12">
         <img class="img-responsive" src="../../images/destinyIDLogo.png">
     </div>
-    <div id="pagination" class="col-sm-12">
-      <div class="dropdown col-sm-6">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          Rareity
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <li><a href="/?rarity=Exotic">Exotic</a></li>
-          <li><a href="/?rarity=Superior">Superior</a></li>
-          <li><a href="/?rarity=Rare">Rare</a></li>
-          <li><a href="/?rarity=Common">Common</a></li>
-          <li><a href="/?rarity=Basic">Basic</a></li>
-          <li><a href="/?rarity=Currency">Currency</a></li>
-        </ul>
+    <div id="nav" class="col-sm-12">
+      <div class="col-sm-6">
+        <div id="rarity" class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Rareity
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li class="rarity" data-rarity="exotic"><a href="javascript:void(0)">Exotic</a></li>
+            <li class="rarity" data-rarity="superior"><a href="javascript:void(0)">Superior</a></li>
+            <li class="rarity" data-rarity="rare"><a href="javascript:void(0)">Rare</a></li>
+            <li class="rarity" data-rarity="common"><a href="javascript:void(0)">Common</a></li>
+            <li class="rarity" data-rarity="basic"><a href="javascript:void(0)">Basic</a></li>
+            <li class="rarity" data-rarity="currency"><a href="javascript:void(0)">Currency</a></li>
+          </ul>
+        </div>
+        <div id="category" class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Type
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li class="category" data-category="weapon"><a href="javascript:void(0)">Weapon</a></li>
+            <li class="category" data-category="armor"><a href="javascript:void(0)">Armor</a></li>
+          </ul>
+        </div>
       </div>
       <div class="col-sm-6">
         <span class="fa-stack fa-lg next">
@@ -45,24 +57,6 @@
 
 <script>
 $(document).ready(function() {
-  var page = GetURLParameter('page');
-  var rarity = GetURLParameter('rarity');
-  if(page === undefined)
-    page = 0;
-  if(rarity === undefined)
-      rarity = 'Common';
-  $('div#pagination span.prev').click(function() {
-    if(page > 0) {
-      var prevPage = parseInt(page) - 1;
-      var url = '//' + window.location.host + '/?rarity=' + rarity + '&page=' + prevPage;
-      window.location = url;
-    }
-  });
-  $('div#pagination span.next').click(function() {
-    var nextPage = parseInt(page) + 1;
-    var url = '//' + window.location.host + '/?rarity=' + rarity + '&page=' + nextPage;
-    window.location = url;
-  });
   $('div.itemBlock').each( function( index, itemBlock ) {
     $.ajax({
       url: "/getItem?iId="+$(itemBlock).attr('id'),
@@ -73,6 +67,43 @@ $(document).ready(function() {
         '<div class="itemName">'+data.Response.data.inventoryItem.itemName+'</div>'
       );
     });
+  });
+
+  var categoryObj = {
+    weapon: 1,
+    armor: 20
+  };
+  var categories = GetURLParameter('categories');
+  var page = GetURLParameter('page');
+  var rarity = GetURLParameter('rarity');
+  var pageSize = parseInt(<%= numPages %>);
+  if(page == undefined)
+    page = 0;
+
+  $('div#nav span.prev').click(function() {
+    var prevPage = parseInt(page) - 1;
+    if(prevPage >= 0) {
+      var url = buildURL(categories, rarity, prevPage);
+      window.location = url;
+    }
+  });
+  $('div#nav span.next').click(function() {
+    var nextPage = parseInt(page) + 1;
+    if(nextPage < pageSize) {
+      var url = buildURL(categories, rarity, nextPage);
+      window.location = url;
+    }
+  });
+  $('li.category').click(function() {
+    var categoryID = $(this).data('category');
+    var categories = categoryObj[categoryID];
+    var url = buildURL(categories, rarity, 0);
+    window.location = url;
+  });
+  $('li.rarity').click(function() {
+    var rarity = $(this).data('rarity');
+    var url = buildURL(categories, rarity, 0);
+    window.location = url;
   });
 });
 
@@ -85,5 +116,15 @@ function GetURLParameter(sParam) {
         return sParameterName[1];
     }
   }
+}
+
+function buildURL(categories, rarity, page) {
+  var url = '//' + window.location.host + '?';
+  if(categories != undefined)
+    url += '&categories=' + categories;
+  if(rarity != undefined)
+    url += '&rarity=' + rarity;
+  url = url + '&page=' + page;
+  return url;
 }
 </script>
