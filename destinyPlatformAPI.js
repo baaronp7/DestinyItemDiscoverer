@@ -64,23 +64,22 @@ exports.getItem = function(iId, callback) {
 	});
 };
 
-exports.searchPlayer = function(memType, player, callback) {
+exports.searchPlayer = function(memType, memId, callback) {
 	var contentsJSON = null;
 	var http = require('http');
 
 	var options = {
 	  host: 'www.bungie.net',
-	  path: '/Platform/Destiny/SearchDestinyPlayer/'+memType+'/'+player+'/',
+	  path: '/Platform/Destiny/SearchDestinyPlayer/' + memType + '/' + memId + '/',
 	  headers: {'X-API-Key': '4c26e058e51742cc972a16cf20c6b6a3'}
 	};
 
 	var req = http.get(options, function(res) {
-
 	  var bodyChunks = [];
 	  res.on('data', function(chunk) {
 			bodyChunks.push(chunk);
 	  }).on('end', function() {
-			contentsJSON = Buffer.concat(bodyChunks);
+			contentsJSON = JSON.parse(Buffer.concat(bodyChunks));
 			callback(contentsJSON);
 	  })
 
@@ -107,7 +106,7 @@ exports.getAccount = function(memType, memId, callback) {
 	  res.on('data', function(chunk) {
 			bodyChunks.push(chunk);
 	  }).on('end', function() {
-			contentsJSON = Buffer.concat(bodyChunks);
+			contentsJSON = JSON.parse(Buffer.concat(bodyChunks));
 			callback(contentsJSON);
 	  })
 

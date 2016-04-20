@@ -1,1 +1,37 @@
-<%- accountJSON %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+    <script>
+        console.log(<%- JSON.stringify(accountJSON) %>);
+    </script>
+    <% var itemArrayList = new Array(); %>
+    <% var race = { 0: 'Titan', 1: 'Hunter', 2: 'Warlock' }; %>
+    <% var gender = { 0: 'Male', 1: 'Female' }; %>
+    <% for(var i in accountJSON.Response.data.characters) { %>
+        <% var itemList = new Array(); %>
+        <div class="characterBlock col-sm-4">
+            <div class="infoBg col-sm-12" style="background: url('http://www.bungie.net/<%- accountJSON.Response.data.characters[i].backgroundPath %>');">
+                <img class="img-responsive" src="http://www.bungie.net/<%- accountJSON.Response.data.characters[i].emblemPath %>"/>
+                <div class="characterInfo">
+                    <p><%- gender[accountJSON.Response.data.characters[i].characterBase.genderType] %></p>
+                    <p><%- race[accountJSON.Response.data.characters[i].characterBase.classType] %></p>
+                    <p>Light level <%- accountJSON.Response.data.characters[i].characterBase.powerLevel %></p>
+                </div>
+            </div>
+            <% for(var j in accountJSON.Response.data.characters[i].characterBase.peerView.equipment) { %>
+                <% itemList.push(accountJSON.Response.data.characters[i].characterBase.peerView.equipment[j].itemHash) %>
+            <% } %>
+            <div class="itemsList">
+                <% for(var i in itemList) { %>
+                    <div id="<%- itemList[i] %>" class="itemBlock col-sm-3"></div>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+
+    <% include ../partials/footer %>
+</body>
+</html>

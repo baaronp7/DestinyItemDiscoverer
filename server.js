@@ -31,9 +31,9 @@ app.get('/', function (req, res) {
 });
 
 app.get('/getItem', function (req, res) {
-  destinyAPI.getItem(req.query.iId, function(accountJSON) {
-    res.render('pages/account', {
-      accountJSON: accountJSON
+  destinyAPI.getItem(req.query.iId, function(json) {
+    res.render('pages/json', {
+      json: json
     });
   });
 });
@@ -41,23 +41,24 @@ app.get('/getItem', function (req, res) {
 app.get('/account', function (req, res) {
   destinyAPI.getAccount(req.query.memType, req.query.memId, function(accountJSON) {
     res.render('pages/account', {
+      cssFiles: ['/css/account.css'],
       accountJSON: accountJSON
     });
   });
 });
 
 app.get('/character', function (req, res) {
-  destinyAPI.getCharacter( function(accountJSON) {
-    res.render('pages/account', {
-      accountJSON: accountJSON
+  destinyAPI.getCharacter( function(json) {
+    res.render('pages/json', {
+      json: json
     });
   });
 });
 
 app.get('/search', function (req, res) {
-  destinyAPI.searchPlayer(req.query.memType, req.query.player, function(accountJSON) {
-    res.render('pages/account', {
-      accountJSON: accountJSON
+  destinyAPI.searchPlayer(req.query.memType, req.query.player, function(searchJSON) {
+    res.render('pages/search', {
+      searchJSON: searchJSON
     });
   });
 });

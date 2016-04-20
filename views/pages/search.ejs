@@ -1,0 +1,6 @@
+<script>
+var memType = '<%= searchJSON.Response[0].membershipType %>';
+var memId = '<%= searchJSON.Response[0].membershipId %>';
+var url = '//' + window.location.host + '/account?memType=' + memType + '&memId=' + memId;
+window.location = url;
+</script>

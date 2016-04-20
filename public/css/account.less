@@ -1,0 +1,34 @@
+@import "site.less";
+
+div.characterBlock {
+    font-family: 'Lato', sans-serif;
+    font-weight: 800;
+    color: #fff;
+
+    div.infoBg {
+        background-repeat: repeat-x !important;
+    }
+
+    img.img-responsive {
+        float: left;
+    }
+
+    div.characterInfo {
+        float: left;
+        padding-top: 5px;
+        padding-left: 10px;
+
+        p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 0;
+        }
+        div.itemsList {
+            clear: both;
+
+            div.itemsList .itemBlock:first-child {
+                clear: both;
+            }
+        }
+    }
+}

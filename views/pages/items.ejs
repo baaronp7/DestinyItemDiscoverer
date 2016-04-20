@@ -4,127 +4,17 @@
     <% include ../partials/head %>
 </head>
 <body>
-    <div id="logoHeader" class="col-sm-12">
-        <img class="img-responsive" src="../../images/destinyIDLogo.png">
+    <% include ../partials/header %>
+
+    <div id="itemsList">
+        <% for(var i in itemsJSON.Response.data.itemHashes) { %>
+            <div id="<%- itemsJSON.Response.data.itemHashes[i] %>" class="itemBlock col-sm-3"></div>
+        <% } %>
     </div>
-    <div id="nav" class="col-sm-12">
-      <div class="col-sm-6">
-        <div id="rarity" class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Rareity
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li class="rarity" data-rarity="exotic"><a href="javascript:void(0)">Exotic</a></li>
-            <li class="rarity" data-rarity="superior"><a href="javascript:void(0)">Superior</a></li>
-            <li class="rarity" data-rarity="rare"><a href="javascript:void(0)">Rare</a></li>
-            <li class="rarity" data-rarity="common"><a href="javascript:void(0)">Common</a></li>
-            <li class="rarity" data-rarity="basic"><a href="javascript:void(0)">Basic</a></li>
-            <li class="rarity" data-rarity="currency"><a href="javascript:void(0)">Currency</a></li>
-          </ul>
-        </div>
-        <div id="category" class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Type
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li class="category" data-category="weapon"><a href="javascript:void(0)">Weapon</a></li>
-            <li class="category" data-category="armor"><a href="javascript:void(0)">Armor</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <span class="fa-stack fa-lg next">
-          <i class="fa fa-stop fa-stack-2x"></i>
-          <i class="fa fa-chevron-right fa-stack-1x fa-inverse"></i>
-        </span>
-        <span class="fa-stack fa-lg prev">
-          <i class="fa fa-stop fa-stack-2x"></i>
-          <i class="fa fa-chevron-left fa-stack-1x fa-inverse"></i>
-        </span>
-      </div>
-    </div>
-  <div id="itemsList">
-  <% for(var i in itemsJSON.Response.data.itemHashes) { %>
-    <div id="<%- itemsJSON.Response.data.itemHashes[i] %>" class="itemBlock col-sm-3"></div>
-  <% } %>
-  </div>
-  <div id="footer">
-    <a href="https://github.com/baaronp7/DestinyItemDiscoverer" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
-  </div>
+
+    <script>
+        var pageSize = parseInt(<%= numPages %>);
+    </script>
+    <% include ../partials/footer %>
 </body>
-
-<script>
-$(document).ready(function() {
-  $('div.itemBlock').each( function( index, itemBlock ) {
-    $.ajax({
-      url: "/getItem?iId="+$(itemBlock).attr('id'),
-      dataType: "json"
-    }).success(function(data){
-      $(itemBlock).html(
-        '<img class="img-responsive" src="http://www.bungie.net/'+data.Response.data.inventoryItem.icon+'"/>'+
-        '<div class="itemName">'+data.Response.data.inventoryItem.itemName+'</div>'
-      );
-    });
-  });
-
-  var categoryObj = {
-    weapon: 1,
-    armor: 20
-  };
-  var categories = GetURLParameter('categories');
-  var page = GetURLParameter('page');
-  var rarity = GetURLParameter('rarity');
-  var pageSize = parseInt(<%= numPages %>);
-  if(page == undefined)
-    page = 0;
-
-  $('div#nav span.prev').click(function() {
-    var prevPage = parseInt(page) - 1;
-    if(prevPage >= 0) {
-      var url = buildURL(categories, rarity, prevPage);
-      window.location = url;
-    }
-  });
-  $('div#nav span.next').click(function() {
-    var nextPage = parseInt(page) + 1;
-    if(nextPage < pageSize) {
-      var url = buildURL(categories, rarity, nextPage);
-      window.location = url;
-    }
-  });
-  $('li.category').click(function() {
-    var categoryID = $(this).data('category');
-    var categories = categoryObj[categoryID];
-    var url = buildURL(categories, rarity, 0);
-    window.location = url;
-  });
-  $('li.rarity').click(function() {
-    var rarity = $(this).data('rarity');
-    var url = buildURL(categories, rarity, 0);
-    window.location = url;
-  });
-});
-
-function GetURLParameter(sParam) {
-  var sPageURL = window.location.search.substring(1);
-  var sURLVariables = sPageURL.split('&');
-  for (var i = 0; i < sURLVariables.length; i++) {
-    var sParameterName = sURLVariables[i].split('=');
-    if (sParameterName[0] == sParam) {
-        return sParameterName[1];
-    }
-  }
-}
-
-function buildURL(categories, rarity, page) {
-  var url = '//' + window.location.host + '?';
-  if(categories != undefined)
-    url += '&categories=' + categories;
-  if(rarity != undefined)
-    url += '&rarity=' + rarity;
-  url = url + '&page=' + page;
-  return url;
-}
-</script>
+</html>
