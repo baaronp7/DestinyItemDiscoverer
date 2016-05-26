@@ -47,6 +47,26 @@ html {
                 img.img-responsive {
                     max-width: 96px;
                 }
+                .itemInfo {
+                    display: none;
+                    position: absolute;
+                    z-index: 5000;
+                    width: 150px;
+                    color: #fff;
+                    font-weight: 400;
+                    text-align: left;
+                }
+                .itemInfo::after {
+                    content: "";
+                    background: #333;
+                    opacity: 0.8;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    position: absolute;
+                    z-index: -1;  
+                }
             }
         }
 

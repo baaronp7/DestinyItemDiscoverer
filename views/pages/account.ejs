@@ -4,9 +4,6 @@
     <% include ../partials/head %>
 </head>
 <body>
-    <script>
-        console.log(<%- JSON.stringify(accountJSON) %>);
-    </script>
     <% var itemArrayList = new Array(); %>
     <% var race = { 0: 'Titan', 1: 'Hunter', 2: 'Warlock' }; %>
     <% var gender = { 0: 'Male', 1: 'Female' }; %>
@@ -26,7 +23,7 @@
             <% } %>
             <div class="itemsList">
                 <% for(var i in itemList) { %>
-                    <div id="<%- itemList[i] %>" class="itemBlock col-sm-3"></div>
+                    <div id="<%- itemList[i] %>" class="itemBlock col-xs-3 col-sm-6 col-lg-3"></div>
                 <% } %>
             </div>
         </div>

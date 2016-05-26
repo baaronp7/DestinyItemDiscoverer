@@ -1,14 +1,40 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
+    $(document).mousemove(function(e) {
+        window.x = e.pageX;
+        window.y = e.pageY;
+    });
+    
     if ($("div.itemBlock").length) {
         $('div.itemBlock').each(function (index, itemBlock) {
             $.ajax({
                 url: "/getItem?iId=" + $(itemBlock).attr('id'),
                 dataType: "json"
             }).success(function (data) {
+                console.log(data.Response.data);
                 $(itemBlock).html(
-                    '<img class="img-responsive" src="http://www.bungie.net/' + data.Response.data.inventoryItem.icon + '"/>' +
-                '<div class="itemName">' + data.Response.data.inventoryItem.itemName + '</div>'
+                    '<img class="img-responsive itemImage" src="http://www.bungie.net/' +
+                    data.Response.data.inventoryItem.icon + '"/>' +
+                    '<div class="itemInfo ' + data.Response.data.inventoryItem.stats.tierTypeName + '">' +
+                        '<div class="itemName">' + data.Response.data.inventoryItem.itemName + '</div>' +
+                        '<div class="itemTypeName">' + data.Response.data.inventoryItem.itemTypeName + '</div>' +
+                        '<div class="itemDescription">' + data.Response.data.inventoryItem.itemDescription + '</div>' +
+                        
+                    '</div>'
                 );
+
+                $('.itemImage').hover(function(event) {
+                    var info = $(this).next();
+                    $(info).offset({ top: event.pageY, left: event.pageX + 20 });
+                    $(info).show();
+                    
+                }, function() {
+                    var info = $(this).next();
+                    $(info).hide();
+                });
+                $('.itemImage').mousemove(function() {
+                    var info = $(this).next();
+                    $(info).offset({ top: event.pageY, left: event.pageX + 20 });
+                });
             });
         });
     }
@@ -20,7 +46,8 @@
     
     var categoryObj = {
         weapon: 1,
-        armor: 20
+        armor: 20,
+        ship: 42
     };
     var categories = GetURLParameter('categories');
     var page = GetURLParameter('page');
