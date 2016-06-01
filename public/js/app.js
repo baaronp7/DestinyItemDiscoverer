@@ -1,7 +1,6 @@
 $(document).ready(function () {
-    $(document).mousemove(function(e) {
-        window.x = e.pageX;
-        window.y = e.pageY;
+    $(document).mousemove(function() {
+        
     });
     
     if ($("div.itemBlock").length) {
@@ -10,11 +9,10 @@ $(document).ready(function () {
                 url: "/getItem?iId=" + $(itemBlock).attr('id'),
                 dataType: "json"
             }).success(function (data) {
-                console.log(data.Response.data);
                 $(itemBlock).html(
                     '<img class="img-responsive itemImage" src="http://www.bungie.net/' +
                     data.Response.data.inventoryItem.icon + '"/>' +
-                    '<div class="itemInfo ' + data.Response.data.inventoryItem.stats.tierTypeName + '">' +
+                    '<div class="itemInfo ' + data.Response.data.inventoryItem.tierTypeName + '">' +
                         '<div class="itemName">' + data.Response.data.inventoryItem.itemName + '</div>' +
                         '<div class="itemTypeName">' + data.Response.data.inventoryItem.itemTypeName + '</div>' +
                         '<div class="itemDescription">' + data.Response.data.inventoryItem.itemDescription + '</div>' +
