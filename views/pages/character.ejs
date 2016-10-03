@@ -18,12 +18,24 @@
 <% for(var i = 1; i < items.length; i++) { %>
     <% if(i <= 5 && (t == "ALL" || t == "ARMOR" || t == "LOADOUT")) { %>
         <% var item = JSON.parse(items[i]).Response.data.inventoryItem %>
-        <%- item.tierTypeName %> <%- item.itemTypeName %> &quot;<%- item.itemName %>&quot;<%- sp %>
+        <% if(i == 5) { %>
+            <%- item.tierTypeName %> <%- item.itemTypeName %> <%- item.itemName %>
+        <% } else { %>
+            <%- item.tierTypeName %> <%- item.itemTypeName %> <%- item.itemName %><%- ds %>
+        <% } %>
     <% } else if(i > 5 && i <= 8 && (t == "ALL" || t == "WEAPONS" || t == "LOADOUT")) { %>
         <% var item = JSON.parse(items[i]).Response.data.inventoryItem %>
-        <%- item.tierTypeName %> <%- item.itemTypeName %> &quot;<%- item.itemName %>&quot;<%- sp %>
-    <% } else if(i > 8 && t == "ALL") { %>
+        <% if(i == 8) { %>
+            <%- item.tierTypeName %> <%- item.itemTypeName %> <%- item.itemName %>
+        <% } else { %>
+            <%- item.tierTypeName %> <%- item.itemTypeName %> <%- item.itemName %><%- ds %>
+        <% } %>
+    <% } else if(i > 8 && (t == "ALL" || t == "COS")) { %>
         <% var item = JSON.parse(items[i]).Response.data.inventoryItem %>
-        <%- item.tierTypeName %> <%- item.itemTypeName %> <%- item.itemName %><%- sp %>
+        <% if(i == items.length - 1) { %>
+            <%- item.tierTypeName %> <%- item.itemTypeName %> <%- item.itemName %>
+        <% } else { %>
+            <%- item.tierTypeName %> <%- item.itemTypeName %> <%- item.itemName %><%- ds %>
+        <% } %>
     <% } %>
 <% } %>
