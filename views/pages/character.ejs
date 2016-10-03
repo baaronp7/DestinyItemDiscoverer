@@ -1,6 +1,6 @@
 <% var t = type.toUpperCase() %>
 <% if(t == "ALL" || t == "STATS") { %>
-    <% var gender = ["Male","Female"] %> <% var classes = ["Titan","Hunter","Warlock"] %> <% var item = JSON.parse(items[0]).Response.data.inventoryItem %>
+    <% var gender = ["Male","Female"] %><% " " %><% var classes = ["Titan","Hunter","Warlock"] %> <% var item = JSON.parse(items[0]).Response.data.inventoryItem %>
     <%- gender[parseInt(characterBase.genderType)] %>
     <%- item.itemName %>
     <%- classes[parseInt(characterBase.classType)] + "\r\n" %>
