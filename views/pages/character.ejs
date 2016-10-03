@@ -1,5 +1,6 @@
 <% var t = type.toUpperCase() %>
 <% var sp = "/" %>
+<% var ds = "/" %>
 <% if(t == "ALL" || t == "CHAR") { %>
     <% var gender = ["Male","Female"] %>
     <% var classes = ["Titan","Hunter","Warlock"] %>
@@ -9,10 +10,10 @@
     <%- classes[parseInt(characterBase.classType)] %>
 <% } %>
 <% if(t == "ALL" || t == "STATS") { %>
-    Light <%- characterBase.powerLevel %><%- sp %>
-    Intellect <%- characterBase.stats.STAT_INTELLECT.value %>/300<%- sp %>
-    Discipline <%- characterBase.stats.STAT_DISCIPLINE.value %>/300<%- sp %>
-    Strength <%- characterBase.stats.STAT_STRENGTH.value %>/300<%- sp %>
+    Light <%- characterBase.powerLevel %><%- ds %>
+    Intellect <%- characterBase.stats.STAT_INTELLECT.value %>/300<%- ds %>
+    Discipline <%- characterBase.stats.STAT_DISCIPLINE.value %>/300<%- ds %>
+    Strength <%- characterBase.stats.STAT_STRENGTH.value %>/300
 <% } %>
 <% for(var i = 1; i < items.length; i++) { %>
     <% if(i <= 5 && (t == "ALL" || t == "ARMOR" || t == "LOADOUT")) { %>
