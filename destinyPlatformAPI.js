@@ -1,6 +1,7 @@
+const https = require('https');
+
 exports.getItems = function(categories, rarity, page, callback) {
 	var contentsJSON = null;
-	var http = require('http');
 	var path = '/Platform/Destiny/Explorer/Items/?count=10';
 
 	if(categories != undefined)
@@ -20,14 +21,19 @@ exports.getItems = function(categories, rarity, page, callback) {
 	  headers: {'X-API-Key': '4c26e058e51742cc972a16cf20c6b6a3'}
 	};
 
-	var req = http.get(options, function(res) {
+	var req = https.get(options, function(res) {
 
 	  var bodyChunks = [];
 	  res.on('data', function(chunk) {
 			bodyChunks.push(chunk);
 	  }).on('end', function() {
+			try {
 			contentsJSON = JSON.parse(Buffer.concat(bodyChunks));
 			callback(contentsJSON);
+			}
+			catch(e){
+				console.log(Buffer.concat(bodyChunks).toString());
+			}
 	  })
 
 	});
@@ -39,7 +45,6 @@ exports.getItems = function(categories, rarity, page, callback) {
 
 exports.getItem = function(iId, callback) {
 	var contentsJSON = null;
-	var http = require('http');
 
 	var options = {
 	  host: 'www.bungie.net',
@@ -47,7 +52,7 @@ exports.getItem = function(iId, callback) {
 	  headers: {'X-API-Key': '4c26e058e51742cc972a16cf20c6b6a3'}
 	};
 
-	var req = http.get(options, function(res) {
+	var req = https.get(options, function(res) {
 
 	  var bodyChunks = [];
 	  res.on('data', function(chunk) {
@@ -66,7 +71,6 @@ exports.getItem = function(iId, callback) {
 
 exports.searchPlayer = function(memType, memId, callback) {
 	var contentsJSON = null;
-	var http = require('http');
 
 	var options = {
 	  host: 'www.bungie.net',
@@ -74,7 +78,7 @@ exports.searchPlayer = function(memType, memId, callback) {
 	  headers: {'X-API-Key': '4c26e058e51742cc972a16cf20c6b6a3'}
 	};
 
-	var req = http.get(options, function(res) {
+	var req = https.get(options, function(res) {
 	  var bodyChunks = [];
 	  res.on('data', function(chunk) {
 			bodyChunks.push(chunk);
@@ -92,7 +96,6 @@ exports.searchPlayer = function(memType, memId, callback) {
 
 exports.getAccount = function(memType, memId, callback) {
 	var contentsJSON = null;
-	var http = require('http');
 
 	var options = {
 	  host: 'www.bungie.net',
@@ -100,7 +103,7 @@ exports.getAccount = function(memType, memId, callback) {
 	  headers: {'X-API-Key': '4c26e058e51742cc972a16cf20c6b6a3'}
 	};
 
-	var req = http.get(options, function(res) {
+	var req = https.get(options, function(res) {
 
 	  var bodyChunks = [];
 	  res.on('data', function(chunk) {
@@ -119,15 +122,13 @@ exports.getAccount = function(memType, memId, callback) {
 
 exports.getCharacter = function(callback) {
 	var contentsJSON = null;
-	var http = require('http');
-
 	var options = {
 	  host: 'www.bungie.net',
 	  path: '/Platform/Destiny/1/Account/4611686018429670931/Character/2305843009298246930/',
 	  headers: {'X-API-Key': '4c26e058e51742cc972a16cf20c6b6a3'}
 	};
 
-	var req = http.get(options, function(res) {
+	var req = https.get(options, function(res) {
 
 	  var bodyChunks = [];
 	  res.on('data', function(chunk) {

@@ -6,6 +6,7 @@ var less = require('less-middleware');
 var app = express();
 
 var destinyAPI = require('./destinyPlatformAPI');
+var destinyNightBot = require('./destinyNightBot');
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -60,6 +61,64 @@ app.get('/search', function (req, res) {
     res.render('pages/search', {
       searchJSON: searchJSON
     });
+  });
+});
+
+app.get('/stream', function (req, res) {
+  var memType = req.query.memType;
+  if(memType == undefined)
+    memType = "1";
+
+  var account = req.query.account;
+  if(account == undefined)
+    account = "4611686018429670931";
+
+  var character = req.query.character;
+
+  var type = req.query.type;
+  if(type == undefined)
+    type = "ALL";
+
+  destinyNightBot.getAccount(memType, account, function(accountJSON) {
+    var getCharacter = null;
+
+    //Get last played character or character passed in url
+    destinyNightBot.character(character, accountJSON, function(c){
+      getCharacter = c;
+    });
+    
+    //get character json
+    destinyNightBot.getCharacter(account, getCharacter, function(json) {
+      
+      //get the characters items
+      destinyNightBot.items(json, function(items){
+        res.render('pages/character', {
+          type: type,
+          characterBase: JSON.parse(json).Response.data.characterBase,
+          items: items
+        });
+      });
+    });
+  });
+});
+
+app.get('/stream/changeItem', function (req, res) {
+  var item = req.query.item;
+  if(item == undefined)
+    item = "6917529098455518207";
+
+  var account = req.query.account;
+  if(account == undefined)
+    account = "4611686018429670931";
+
+  var character = req.query.character;
+  if(character == undefined)
+    character = "2305843009219801924";
+
+  destinyNightBot.changeItem(item, account, character, function(message) {
+      res.render('pages/json', {
+        json: message
+      });
   });
 });
 

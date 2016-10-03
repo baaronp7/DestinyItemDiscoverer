@@ -1,0 +1,25 @@
+<% var t = type.toUpperCase() %>
+<% if(t == "ALL" || t == "STATS") { %>
+    <% var gender = ["Male","Female"] %>
+    <% var classes = ["Titan","Hunter","Warlock"] %>
+    <% var item = JSON.parse(items[0]).Response.data.inventoryItem %>
+    <%- gender[parseInt(characterBase.genderType)] %>
+    <%- item.itemName %>
+    <%- classes[parseInt(characterBase.classType)] %><br/>
+    Light <%- characterBase.powerLevel %><br/>
+    Intellect <%- characterBase.stats.STAT_INTELLECT.value %>/300<br/>
+    Discipline <%- characterBase.stats.STAT_DISCIPLINE.value %>/300<br/>
+    Stringth <%- characterBase.stats.STAT_STRENGTH.value %>/300<br/>
+<% } %>
+<% for(var i = 1; i < items.length; i++) { %>
+    <% if(i <= 5 && (t == "ALL" || t == "ARMOR" || t == "LOADOUT")) { %>
+        <% var item = JSON.parse(items[i]).Response.data.inventoryItem %>
+        <%- item.tierTypeName %> <%- item.itemTypeName %> &quot;<%- item.itemName %>&quot;<br/>
+    <% } else if(i > 5 && i <= 8 && (t == "ALL" || t == "WEAPONS" || t == "LOADOUT")) { %>
+        <% var item = JSON.parse(items[i]).Response.data.inventoryItem %>
+        <%- item.tierTypeName %> <%- item.itemTypeName %> &quot;<%- item.itemName %>&quot;<br/>
+    <% } else if(i > 8 && t == "ALL") { %>
+        <% var item = JSON.parse(items[i]).Response.data.inventoryItem %>
+        <%- item.tierTypeName %> <%- item.itemTypeName %> <%- item.itemName %><br/>
+    <% } %>
+<% } %>
