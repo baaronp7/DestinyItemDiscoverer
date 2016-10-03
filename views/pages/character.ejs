@@ -1,13 +1,13 @@
 <% var t = type.toUpperCase() %>
-<% var sp = " -  " %>
-<% var rt = "\r\n" %>
+<% var sp = " - " %>
+<% var s = " " %>
 <% if(t == "ALL" || t == "STATS") { %>
     <% var gender = ["Male","Female"] %>
     <% var classes = ["Titan","Hunter","Warlock"] %>
     <% var item = JSON.parse(items[0]).Response.data.inventoryItem %>
-    <%- gender[parseInt(characterBase.genderType)] %><%- sp %>&#32;
-    <%- item.itemName %><%- sp %>&#32;
-    <%- classes[parseInt(characterBase.classType)] %><%- sp %>&#32;
+    <%- gender[parseInt(characterBase.genderType)] %><%- sp %><%- s %>
+    <%- item.itemName %><%- sp %><%- s %>
+    <%- classes[parseInt(characterBase.classType)] %><%- sp %><%- s %>
     Light <%- characterBase.powerLevel %><%- sp %>
     Intellect <%- characterBase.stats.STAT_INTELLECT.value %>/300<%- sp %>
     Discipline <%- characterBase.stats.STAT_DISCIPLINE.value %>/300<%- sp %>
