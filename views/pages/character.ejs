@@ -6,7 +6,7 @@
     <% var classes = ["Titan","Hunter","Warlock"] %>
     <% var item = JSON.parse(items[0]).Response.data.inventoryItem %>
     <%- gender[parseInt(characterBase.genderType)] %><%- sp %><%- s %>
-    <%- item.itemName %><%- sp %><%- s %>
+    <%- item.itemName + " - " %><%- sp %><%- s %>
     <%- classes[parseInt(characterBase.classType)] %><%- sp %><%- s %>
     Light <%- characterBase.powerLevel %><%- sp %>
     Intellect <%- characterBase.stats.STAT_INTELLECT.value %>/300<%- sp %>
