@@ -3,7 +3,6 @@
 var express = require('express');
 var partial = require('express-partial');
 var less = require('less-middleware');
-var passport = require("passport");
 var app = express();
 
 var destinyAPI = require('./destinyPlatformAPI');
@@ -15,63 +14,6 @@ app.set('view engine', 'ejs');
 app.use(less(__dirname + '/public'));
 app.use(express.static(__dirname + '/public'));
 app.use(partial());
-app.use(passport.initialize());
-app.use(passport.session());
-
-var WindowsLiveStrategy = require('passport-windowslive').Strategy;
-
-passport.use('windowslive', new WindowsLiveStrategy({
-    clientID: "766bea47-a9e7-4692-8d9c-5f2e92e60f49",
-    clientSecret: "F5vNFrbMResFNio95qziszs",
-    callbackURL: "https://www.bungie.net/en/User/SignIn/Xuid"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ windowsliveId: profile.id }, function (err, user) {
-      console.log("test");
-      return cb(err, user);
-    });
-  }
-));
-
-app.get('/auth/windows', passport.authenticate('windowslive', function() {console.log("test")}), function(req, res) {
-  console.log(res.headers['set-cookie']);
-  res.redirect(req.session.returnTo || '/');
-    delete req.session.returnTo;
-});
-
-app.get('/auth/windows/callback', passport.authenticate('windowslive', {
-  successRedirect: '/success',
-  failureRedirect: '/error'
-}));
-
-app.get('/success', function(req, res, next) {
-  console.log(res.headers['set-cookie']);
-  console.log("test");
-  res.send('Successfully logged in.');
-});
-
-app.get('/error', function(req, res, next) {
-  console.log(res.headers['set-cookie']);
-  console.log("test");
-  res.send("Error logging in.");
-});
-
-app.get('/login', function (req, res) {
-  var phantom = require('phantom');
-
-  phantom.create(function(ph){
-    ph.createPage(function(page) {
-      page.open("http://localhost:3000/auth/windows", function(status) {
-          console.log("Status: " + status);
-          if(status === "success") {
-            console.log(res.headers['set-cookie']);
-            console.log("test2");
-          }
-          ph.exit();
-      })
-    })
-  });
-});
 
 app.get('/', function (req, res) {
   var categories = req.query.categories;
@@ -160,48 +102,6 @@ app.get('/stream', function (req, res) {
   });
 });
 
-app.get('/stream/stats', function (req, res) {
-  var memType = req.query.memType;
-  if(memType == undefined)
-    memType = "1";
-
-  var account = req.query.account;
-  if(account == undefined)
-    account = "4611686018429670931";
-
-  var character = req.query.character;
-
-  var mode = req.query.mode;
-  if(mode == undefined)
-    mode = "IronBanner";
-
-  var games = req.query.games;
-  if(games == undefined)
-    games = 5;
-
-  destinyNightBot.getAccount(memType, account, function(accountJSON) {
-    var getCharacter = null;
-
-    //Get last played character or character passed in url
-    destinyNightBot.character(character, accountJSON, function(c){
-      getCharacter = c;
-    });
-    
-    //get character json
-    destinyNightBot.getCharacter(account, getCharacter, function(json) {
-      
-      //get the characters items
-      destinyNightBot.getStats (memType, account, getCharacter, mode, function(stats){
-        res.render('pages/stats', {
-          characterBase: JSON.parse(json).Response.data.characterBase,
-          stats: stats,
-          games: games
-        });
-      });
-    });
-  });
-});
-
 app.get('/stream/changeItem', function (req, res) {
   var item = req.query.item;
   if(item == undefined)
@@ -215,7 +115,7 @@ app.get('/stream/changeItem', function (req, res) {
   if(character == undefined)
     character = "2305843009219801924";
 
-  destinyNightBot.getCookie(function(message) {
+  destinyNightBot.changeItem(item, account, character, function(message) {
       res.render('pages/json', {
         json: message
       });
