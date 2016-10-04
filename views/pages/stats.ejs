@@ -1,0 +1,21 @@
+<% var sp = "/" %>
+<% var ds = " ~ " %>
+<% var gender = ["Male","Female"] %>
+<% var classes = ["Titan","Hunter","Warlock"] %>
+<%- gender[parseInt(characterBase.genderType)] %><%- ds %>
+<%- classes[parseInt(characterBase.classType)] %><%- ds %>
+Light <%- characterBase.powerLevel %><%- ds %><%- ds %>
+<% for(var i = 0; i < games; i++) { %>
+    <% var stat = JSON.parse(stats).Response.data.activities[i] %>
+    <% var gameTime = new Date(stat.period) %>
+    Date: <%- String(gameTime.getMonth()+1)+"/"+gameTime.getDate()+" "+gameTime.getHours()+":"+gameTime.getMinutes() %><%- ds %>
+    Score: <%- stat.values.score.basic.displayValue %><%- ds %>
+    Assists: <%- stat.values.assists.basic.displayValue %><%- ds %>
+    Kills: <%- stat.values.kills.basic.displayValue %><%- ds %>
+    Deaths: <%- stat.values.deaths.basic.displayValue %><%- ds %>
+    K/D: <%- stat.values.killsDeathsRatio.basic.displayValue %><%- ds %>
+    KA/D: <%- stat.values.killsDeathsAssists.basic.displayValue %>
+    <% if(i != games-1) { %>
+        <%- ds %><%- ds %>
+    <% } %>
+<% } %>
