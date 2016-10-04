@@ -3,6 +3,7 @@ var path = "/Platform/Destiny/";
 var apiKey = "4c26e058e51742cc972a16cf20c6b6a3";
 var xcsrf = "7875572953218462344";
 const https = require('https');
+var request = require("request");
 var async = require("async");
 var _this = this;
 
@@ -83,30 +84,86 @@ exports.getItem = function(iId, callback) {
 	});
 };
 
-exports.changeItem = function(itemID, account, character, callback) {
+exports.getStats = function(memType, account, character, mode, callback) {
+	var contentsJSON = null;
+	
 	var options = {
 	  host: host,
-	  path: path+'EquipItem/',
-	  headers: {'X-API-Key': "57c5ff5864634503a0340ffdfbeb20c0", 'x-csrf': xcsrf},
-		body: {"characterId": character, "membershipType": 1, "itemId": itemID}
+	  path: path+'Stats/ActivityHistory/'+memType+'/'+account+'/'+character+'/?mode='+mode,
+	  headers: {'X-API-Key': apiKey}
 	};
-	console.log(options);
-	var req = https.request(options, function(res) {
-	  console.log("statusCode: ", res.statusCode);
-    console.log("headers: ", res.headers);
-		var message;
+	
+	var req = https.get(options, function(res) {
 
-	  res.on('data', function(d) {
-			message = d;
+	  var bodyChunks = [];
+	  res.on('data', function(chunk) {
+			bodyChunks.push(chunk);
 	  }).on('end', function() {
-			callback(message);
-    });
-	});
+			contentsJSON = Buffer.concat(bodyChunks);
+			callback(contentsJSON);
+	  })
 
-	req.end();
+	});
 
 	req.on('error', function(e) {
 	  console.log('ERROR: ' + e.message);
+	});
+};
+
+exports.getAuthResponse = function(callback) {
+	var options = { method: 'GET', url: "http://localhost:3000/auth/windows" };
+
+	var authRequest = request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+		console.log(body);
+		callback(response);
+	});
+};
+
+exports.getCookie = function(callback) {
+	var request = require("request");
+	var cookie = require('cookie');
+
+	_this.getAuthResponse(function(authRes) {
+		var cookies = authRes.headers['set-cookie'];
+		cookies = cookie.parse(String(cookies));
+		authCookie = cookies['HttpOnly,bungled'];
+		console.log(authRes.headers);
+		var opts = { method: 'POST',
+			url: 'https://www.bungie.net/Platform/Destiny/EquipItem/',
+			headers: 
+			{ 'postman-token': '55af883d-2e70-e593-1898-b75d73068bc5',
+				'cache-control': 'no-cache',
+				'x-csrf': authCookie,
+				'x-api-key': '4c26e058e51742cc972a16cf20c6b6a3' },
+			body: '{characterId: \'2305843009219801924\', membershipType: 1, itemId: \'6917529098455518207\'}' };
+
+		request(opts, function (error, response, body) {
+			if (error) throw new Error(error);
+
+			console.log(body);
+			callback(body);
+		});
+	});
+};
+
+exports.changeItem = function(itemID, account, character, callback) {
+	var request = require("request");
+
+	var options = { method: 'POST',
+		url: 'https://www.bungie.net/Platform/Destiny/EquipItem/',
+		headers: 
+		{ 'postman-token': '55af883d-2e70-e593-1898-b75d73068bc5',
+			'cache-control': 'no-cache',
+			'x-csrf': '7875572953218462344',
+			'x-api-key': '4c26e058e51742cc972a16cf20c6b6a3' },
+		body: '{characterId: \'2305843009219801924\', membershipType: 1, itemId: \'6917529098455518207\'}' };
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+
+		console.log(body);
+		callback(body);
 	});
 };
 
