@@ -102,6 +102,48 @@ app.get('/stream', function (req, res) {
   });
 });
 
+app.get('/stream/stats', function (req, res) {
+  var memType = req.query.memType;
+  if(memType == undefined)
+    memType = "1";
+
+  var account = req.query.account;
+  if(account == undefined)
+    account = "4611686018429670931";
+
+  var character = req.query.character;
+
+  var mode = req.query.mode;
+  if(mode == undefined)
+    mode = "IronBanner";
+
+  var games = req.query.games;
+  if(games == undefined)
+    games = 5;
+
+  destinyNightBot.getAccount(memType, account, function(accountJSON) {
+    var getCharacter = null;
+
+    //Get last played character or character passed in url
+    destinyNightBot.character(character, accountJSON, function(c){
+      getCharacter = c;
+    });
+    
+    //get character json
+    destinyNightBot.getCharacter(account, getCharacter, function(json) {
+      
+      //get the characters items
+      destinyNightBot.getStats (memType, account, getCharacter, mode, function(stats){
+        res.render('pages/stats', {
+          characterBase: JSON.parse(json).Response.data.characterBase,
+          stats: stats,
+          games: games
+        });
+      });
+    });
+  });
+});
+
 app.get('/stream/changeItem', function (req, res) {
   var item = req.query.item;
   if(item == undefined)

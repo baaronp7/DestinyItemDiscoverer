@@ -83,6 +83,32 @@ exports.getItem = function(iId, callback) {
 	});
 };
 
+exports.getStats = function(memType, account, character, mode, callback) {
+	var contentsJSON = null;
+	
+	var options = {
+	  host: host,
+	  path: path+'Stats/ActivityHistory/'+memType+'/'+account+'/'+character+'/?mode='+mode,
+	  headers: {'X-API-Key': apiKey}
+	};
+	
+	var req = https.get(options, function(res) {
+
+	  var bodyChunks = [];
+	  res.on('data', function(chunk) {
+			bodyChunks.push(chunk);
+	  }).on('end', function() {
+			contentsJSON = Buffer.concat(bodyChunks);
+			callback(contentsJSON);
+	  })
+
+	});
+
+	req.on('error', function(e) {
+	  console.log('ERROR: ' + e.message);
+	});
+};
+
 exports.changeItem = function(itemID, account, character, callback) {
 	var options = {
 	  host: host,
