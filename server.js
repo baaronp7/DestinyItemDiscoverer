@@ -64,6 +64,14 @@ app.get('/search', function (req, res) {
   });
 });
 
+app.get('/music', function (req, res) {
+  res.render('pages/music', {
+    cssFiles: ['/css/music.css'],
+    player: req.query.player,
+    uri: req.query.uri
+  });
+});
+
 app.get('/stream', function (req, res) {
   var memType = req.query.memType;
   if(memType == undefined)
@@ -133,15 +141,127 @@ app.get('/stream/stats', function (req, res) {
     destinyNightBot.getCharacter(account, getCharacter, function(json) {
       
       //get the characters items
-      destinyNightBot.getStats (memType, account, getCharacter, mode, function(stats){
+      destinyNightBot.getStatsHistory(memType, account, getCharacter, mode, null, function(stats){
         res.render('pages/stats', {
           characterBase: JSON.parse(json).Response.data.characterBase,
           stats: stats,
-          games: games
+          games: games,
+          mode: mode,
         });
       });
     });
   });
+});
+
+app.get('/stream/stats/aggregate', function (req, res) {
+  var memType = req.query.memType;
+  if(memType == undefined)
+    memType = "1";
+
+  var account = req.query.account;
+  if(account == undefined)
+    account = "4611686018429670931";
+
+  var character = req.query.character;
+  
+  var mode = req.query.mode;
+  if(mode == undefined)
+    mode = "TrialsOfOsiris";
+
+  destinyNightBot.getAccount(memType, account, function(accountJSON) {
+    var getCharacter = null;
+
+    //Get last played character or character passed in url
+    destinyNightBot.character(character, accountJSON, function(c){
+      getCharacter = c;
+    });
+    
+    //get character json
+    destinyNightBot.getCharacter(account, getCharacter, function(json) {
+      
+      if(mode !== "Raid") {
+        destinyNightBot.getStats(memType, account, getCharacter, mode, function(stats){
+          res.render('pages/pvp', {
+            cssFiles: ['/css/pvp.css'],
+            characterBase: JSON.parse(json).Response.data.characterBase,
+            stats: stats,
+            mode: mode
+          });
+        });
+      } else {
+        var raid = req.query.raid;
+        if(raid == undefined)
+          raid = "roi";
+        var difficulty = req.query.difficulty;
+        if(difficulty == undefined)
+          difficulty = "heroic";
+        destinyNightBot.getStatsHistory(memType, account, getCharacter, mode, 100, function(stats){
+          destinyNightBot.getRaidHistory(stats, raid, difficulty, function(raidStats) {
+            res.render('pages/raid', {
+              cssFiles: ['/css/raid.css'],
+              characterBase: JSON.parse(json).Response.data.characterBase,
+              stats: raidStats,
+              raid: raid,
+              difficulty: difficulty,
+              mode: mode
+            });
+          });
+        });
+      }
+    });
+  });
+});
+
+app.get('/stream/stats/weapons', function (req, res) {
+  var memType = req.query.memType;
+  if(memType == undefined)
+    memType = "1";
+
+  var account = req.query.account;
+  if(account == undefined)
+    account = "4611686018429670931";
+
+  var character = req.query.character;
+
+  var type = req.query.type;
+  if(type == undefined)
+    type = "ALL";
+
+  destinyNightBot.getAccount(memType, account, function(accountJSON) {
+    var getCharacter = null;
+
+    //Get last played character or character passed in url
+    destinyNightBot.character(character, accountJSON, function(c){
+      getCharacter = c;
+    });
+    
+    //get character json
+    destinyNightBot.getCharacter(account, getCharacter, function(json) {
+      
+      //get the characters items
+      destinyNightBot.items(json, function(items){
+        res.render('pages/weapons', {
+          cssFiles: ['/css/weapons.css'],
+          type: type,
+          characterBase: JSON.parse(json).Response.data.characterBase,
+          items: items
+        });
+      });
+    });
+  });
+});
+
+app.get('/stream/song', function (req, res) {
+  var url = 'https://www.dropbox.com/s/iuznboreomuddbf/Snip.txt';
+  destinyNightBot.getSong(url, function(message){
+    res.render('pages/json', {
+        json: message
+      });
+  });
+});
+
+app.get('/stream/songDisplay', function (req, res) {
+  res.render('pages/song', {cssFiles: ['/css/song.css']});
 });
 
 app.get('/stream/changeItem', function (req, res) {
@@ -156,12 +276,18 @@ app.get('/stream/changeItem', function (req, res) {
   var character = req.query.character;
   if(character == undefined)
     character = "2305843009219801924";
-
+  
+  destinyNightBot.login(function(message){
+    res.render('pages/json', {
+        json: message
+      });
+  });
+  /*
   destinyNightBot.changeItem(item, account, character, function(message) {
       res.render('pages/json', {
         json: message
       });
-  });
+  });*/
 });
 
 app.listen(process.env.PORT || 3000, function(){
