@@ -236,7 +236,7 @@ app.get('/stream/stats/weapons', function (req, res) {
     });
     
     //get character json
-    destinyNightBot.getCharacter(account, getCharacter, function(json) {
+    destinyNightBot.getCharacter(memType, account, getCharacter, function(json) {
       
       //get the characters items
       destinyNightBot.items(json, function(items){

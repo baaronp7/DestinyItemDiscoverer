@@ -33,16 +33,16 @@ exports.getAccount = function(memType, memId, callback) {
 	});
 };
 
-exports.getCharacter = function(account, character, callback) {
+exports.getCharacter = function(memType, account, character, callback) {
 	var contentsJSON = null;
 	var http = require('http');
 
 	var options = {
 	  host: host,
-	  path: path + "1/Account/" + account + '/Character/' + character + '/',
+	  path: path + memType+"/Account/" + account + '/Character/' + character + '/',
 	  headers: {'X-API-Key': apiKey}
 	};
-
+	
 	var req = https.get(options, function(res) {
 	  var bodyChunks = [];
 	  res.on('data', function(chunk) {
