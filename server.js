@@ -96,7 +96,7 @@ app.get('/stream', function (req, res) {
     });
     
     //get character json
-    destinyNightBot.getCharacter(account, getCharacter, function(json) {
+    destinyNightBot.getCharacter(memType, account, getCharacter, function(json) {
       
       //get the characters items
       destinyNightBot.items(json, function(items){
@@ -138,7 +138,7 @@ app.get('/stream/stats', function (req, res) {
     });
     
     //get character json
-    destinyNightBot.getCharacter(account, getCharacter, function(json) {
+    destinyNightBot.getCharacter(memType, account, getCharacter, function(json) {
       
       //get the characters items
       destinyNightBot.getStatsHistory(memType, account, getCharacter, mode, null, function(stats){
@@ -177,7 +177,7 @@ app.get('/stream/stats/aggregate', function (req, res) {
     });
     
     //get character json
-    destinyNightBot.getCharacter(account, getCharacter, function(json) {
+    destinyNightBot.getCharacter(memType, account, getCharacter, function(json) {
       
       if(mode !== "Raid") {
         destinyNightBot.getStats(memType, account, getCharacter, mode, function(stats){
