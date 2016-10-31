@@ -19,5 +19,20 @@
         <% } %>
     <% } %>
     </div>
+
+    <script>
+    $(function() {
+        function update() {
+            $.ajax({
+                url: location.href,
+                context: document.body
+            }).done(function(data) {
+                $("div.weaponsContainer").html(data);
+            });
+        }
+        setInterval(update, 30000);
+
+    });
+    </script>
 </body>
 </html>

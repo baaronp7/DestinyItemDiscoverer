@@ -141,7 +141,7 @@ app.get('/stream/stats', function (req, res) {
     destinyNightBot.getCharacter(memType, account, getCharacter, function(json) {
       
       //get the characters items
-      destinyNightBot.getStatsHistory(memType, account, getCharacter, mode, null, function(stats){
+      destinyNightBot.getStatsHistory(memType, account, getCharacter, mode, games, function(stats){
         res.render('pages/stats', {
           characterBase: JSON.parse(json).Response.data.characterBase,
           stats: stats,
