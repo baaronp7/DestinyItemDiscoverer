@@ -73,6 +73,12 @@ app.get('/music', function (req, res) {
 });
 
 app.get('/stream', function (req, res) {
+   res.render('pages/api', {
+    cssFiles: ['/css/weapons.css']
+  });
+});
+
+app.get('/stream/stat', function (req, res) {
   var memType = req.query.memType;
   if(memType == undefined)
     memType = "1";
