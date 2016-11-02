@@ -74,7 +74,7 @@ app.get('/music', function (req, res) {
 
 app.get('/stream', function (req, res) {
    res.render('pages/api', {
-    cssFiles: ['/css/weapons.css']
+    cssFiles: ['/css/api.css']
   });
 });
 

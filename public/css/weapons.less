@@ -1,29 +1,52 @@
 body {
     margin: 0;
-    div.weaponsContainer {
-        width: 534px;
+
+    div.weaponsBG {
+        width: 550px;
         height: 30px;
-        font-family: Lato, Arial, Helvetica, sans-serif;
-        font-size: 12px;
-        display: inline-block;
         background-color: #121C1E;
-        color: #f3f3f3;
+        display: none;
 
-        div.weaponContainer:first-child { margin-left: 0px; }
+        div.weaponsContainer {
+            font-family: Lato, Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            display: inline-block;
+            color: #f3f3f3;
 
-        div.weaponContainer {
-            float: left;
-            margin-left: 10px;
-        
-            div.weaponImg {
+            div.weaponContainer:first-child { margin-left: 0px; }
+
+            div.weaponContainer {
                 float: left;
-                margin-right: 10px;
+                margin-left: 10px;
+                display: block;
+                white-space: nowrap;
+            
+                div.weaponImg {
+                    float: left;
+                    margin-right: 10px;
 
-                img {
-                    width: 30px;
-                    height: 30px;
+                    img {
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+                span.gunName {
+                    display: block;
+                    margin-left: 40px;
                 }
             }
+        }
+    }
+    div.weaponsBG.marquee {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 550px;
+        height: 30px;
+        display: block;
+        overflow: hidden;
+
+        .js-marquee:first-child > div.weaponsContainer:first-child {
+            margin-left: -550px;
         }
     }
 }
