@@ -179,6 +179,7 @@ exports.getStats = function(memType, account, character, mode, callback) {
 			bodyChunks.push(chunk);
 	  }).on('end', function() {
 			contentsJSON = Buffer.concat(bodyChunks);
+			console.log(contentsJSON.toString());
 			callback(contentsJSON);
 	  })
 

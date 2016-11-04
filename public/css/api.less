@@ -7,11 +7,56 @@ body {
     bottom: 0;
     left: 0;
     right: -17px;
+
+    span.formMsg {
+        display: none;
+    }
     
     .noMarginBottom{
         margin-bottom: 0;
     }
-    div.raidContainer, div.weaponsDemo {
-        height: 30px;
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    span.highligtGreen {
+        background-color: chartreuse;
+    }
+
+    .greenBox {
+        padding-left: 2px;
+        border-left: chartreuse 10px solid;
+        float: left;
+    }
+
+    span.highligtRed {
+        background-color: coral;
+    }
+
+    .redBox {
+        padding-left: 2px;
+        border-left: coral 10px solid;
+        float: left;
+        margin-left: 10px;
+    }
+
+    span.highligtYellow {
+        background-color: gold;
+    }
+
+    .yellowBox {
+        padding-left: 2px;
+        border-left: gold 10px solid;
+        float: left;
+        margin-left: 10px;
+    }
+    tr {
+        border: 10px solid transparent;
+    }
+    tr:nth-child(even) {background: #eee}
+    td, th {
+        padding: 0 10px;
+        font-size: 12px;
     }
 }

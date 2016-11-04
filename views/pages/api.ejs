@@ -13,7 +13,41 @@
     <p>
         These widgets are desinged to be overlays for Destiny streamers.
     </p>
-    <h3>Indtuctions</h3>
+    <h3>Instructions</h3>
+    <p>
+    Bungie Account Info<br/>
+    <form id="accountInfo">
+        Account Type: 
+        <select class="accountType">
+            <option value="1">Xbox One</option>
+            <option value="2">Playstation 4</option>
+        </select><br/>
+        Account ID: <input type="text" class="accountNum" maxlength="19"/><br>
+        <input type="submit" class="submitAccount" value="Submit"/>
+        <span class="formMsg">Links Updated!</span>
+    </form>
+    </p>
+    <p>
+    Get Bungie Account ID<br/>
+    <ol>
+        <li>Go to <a href="www.bungie.net">Bungie.net</a></li>
+        <li>Login</li>
+        <li>Go to "MY LEGEND" > "Gear"</li>
+        <li>
+            <div>
+                Look at the URL, Sound Look Simmalar to this<br/>
+                https://www.bungie.net/en/Legend/gear/<span class="highligtGreen">2</span>/<span class="highligtRed">4611686018462104244</span>/<span class="highligtYellow">2305843009415414505</span><br/>
+                <div class="greenBox">Member Type (1 Xbox, 2 PS4)</div>
+                <div class="redBox">Account ID</div>
+                <div class="yellowBox">Character ID</div><br/>
+            </div>
+        </li>
+        <li>Choose the Account Type from the Dropdwon Above that Corresponds to Your Byngie Account</li>
+        <li>Copy the Account ID and Paste it in the "Account ID" feild above</li>
+        <li>Click Submit</li>
+        <li>The API Links Below will Update to Show Your Accounts Information.</li>
+    </ol>
+    </p>
     <p>
     OBS Installation:
         <ol>
@@ -39,7 +73,7 @@
     <p>
         This API shows your current characters weapon loadout.
     </p>
-    <h3>Indtuctions</h3>
+    <h3>Instructions</h3>
     <p>
         <b>Base URL:</b><br/>
         Local - http://localhost:3000/stream/stats/weapons<br/>
@@ -51,8 +85,13 @@
         account - your Bungie Account Number
     </p>
     <p>
+        <b>Dimensions:</b><br/>
+        width - 550px<br/>
+        height - 30px
+    </p>
+    <p>
         <b>URL Example:</b><br/>
-        <a href="http://www.destinyid.com/stream/stats/weapons?memType=2&amp;account=4611686018462104244" target="_blank">http://www.destinyid.com/stream/stats/weapons?memType=2&amp;account=4611686018462104244</a><br/>
+        <a href="http://www.destinyid.com/stream/stats/weapons?memType=2&amp;account=4611686018462104244" target="_blank">http://www.destinyid.com/stream/stats/weapons?memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span></a><br/>
         Click link above to see DEMO.
     </p>
 
@@ -61,7 +100,7 @@
     <p>
         This API shows your current characters raid stats.
     </p>
-    <h3>Indtuctions</h3>
+    <h3>Instructions</h3>
     <p>
         <b>Base URL:</b><br/>
         Local - http://localhost:3000/stream/stats/aggregate<br/>
@@ -76,9 +115,120 @@
         account - your Bungie Account Number
     </p>
     <p>
+        <b>Dimensions:</b><br/>
+        width - 300px<br/>
+        height - 30px
+    </p>
+    <p>
         <b>URL Example:</b><br/>
-        <a href="http://www.destinyid.com/stream/stats/aggregate?mode=Raid&raid=roi&difficulty=normal&memType=2&account=4611686018462104244" target="_blank">http://www.destinyid.com/stream/stats/aggregate?mode=Raid&amp;raid=roi&amp;difficulty=normal&amp;memType=2&amp;account=4611686018462104244</a><br/>
+        <a href="http://www.destinyid.com/stream/stats/aggregate?mode=Raid&raid=roi&difficulty=normal&memType=2&account=4611686018462104244" target="_blank">http://www.destinyid.com/stream/stats/aggregate?mode=Raid&amp;raid=roi&amp;difficulty=normal&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span></a><br/>
         Click link above to see DEMO.
     </p>
+    <h2>NightBot Commands</h2>
+    <h3>Discription</h3>
+    <p>
+        List of NightBot commands that can be used with NightBot in Twitch Chat
+    </p>
+    <h3>Instructions</h3>
+    <p>
+        <ol>
+            <li>Pick the NightBot Command You Want to Use</li>
+            <li>Copy the Command Text</li>
+            <li>Login to Your NightBot Account</li>
+            <li>Clcik "Commands" Then Click "Custom"</li>
+            <li>Click the "+ Add Command" button</li>
+            <li>Enter the Name of Your Command in the "Command" Field</li>
+            <li>Paste the Command Text Into the "Message" Field</li>
+            <li>Click "Submit" button</li>
+            <li>Congrats! You've Created Your First Custom NightBot Command.</li>
+        </ol>
+    </p>
+    <h3>Commands:</h3>
+    <p>
+        <table>
+            <tr>
+                <th>Command</th>
+                <th>Message</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>!gear</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stat&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Gets a List of All of Your Character's Gear</td>
+            </tr>
+            <tr>
+                <td>!loadout</td>
+                <td>$(urlfetch ttp://www.destinyid.com/stream/stat?type=loadout&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Gets a List of All of Your Character's Weapons and Armor</td>
+            </tr>
+            <tr>
+                <td>!weapons</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stat?type=weapons&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Gets a List of All of Your Character's Weapons</td>
+            </tr>
+            <tr>
+                <td>!armor</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stat?type=armor&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Gets a List of All of Your Character's Armor</td>
+            </tr>
+            <tr>
+                <td>!charstats</td>
+                <td>$(urlfetch  http://www.destinyid.com/stream/stat?type=stats&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Gets a List of All of Your Character's Statistics</td>
+            </tr>
+            <tr>
+                <td>!char</td>
+                <td>$(urlfetch  http://www.destinyid.com/stream/stat?type=char&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Gets a List of All of Your Character's Info</td>
+            </tr>
+            <tr>
+                <td>!cosmetic</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stat?type=cos)</td>
+                <td>Gets a List of All of Your Character's Cosmetic Items</td>
+            </tr>
+            <tr>
+                <td>!trials</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stats?games=3&amp;mode=TrialsOfOsiris&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Show Stats for Your Past 3 Trials Matches</td>
+            </tr>
+            <tr>
+                <td>!trialsgame</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stats?games=1&amp;mode=TrialsOfOsiris&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Show Trials Stats for Your Last Trials Match</td>
+            </tr>
+            <tr>
+                <td>!ironbanner</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stats?games=3&amp;mode=IronBanner&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Show Stats for Your Past 3 IronBanner Matches</td>
+            </tr>
+            <tr>
+                <td>!ironbannergame</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stats?games=1&amp;mode=IronBanner&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span>)</td>
+                <td>Show Trials Stats for Your Last IronBanner Match</td>
+            </tr>
+        </table> 
+    </p>
+    <script>
+    $(function(){
+        $("#accountInfo").on("submit", function(){
+            var type = $("select.accountType").val();
+            var id = $("input.accountNum").val();
+            $("span.memType").each(function(){
+                $(this).text(type);
+            });
+            $("span.account").each(function(){
+                $(this).text(id);
+            });
+            $('a').each(function(){
+                var _href = $(this).attr('href'); 
+                _href = _href.replace(/memType=[^&]+/, 'memType=' + type);
+                _href = _href.replace(/account=[^&]+/, 'account=' + id);
+                $(this).attr('href', _href);
+            });
+            $("span.formMsg").fadeIn(1000).delay(1000).fadeOut(1000);
+            return false;
+        });
+    });
+    </script>
 </body>
 </html>

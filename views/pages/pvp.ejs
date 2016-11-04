@@ -18,7 +18,7 @@
             <%- classes[parseInt(characterBase.classType)] %>
             Light <%- characterBase.powerLevel %>
         </div><br/>
-        <script>console.log(<%- stats %>)</script>
+        <% if (statAllTime !== undefined) { %>
         <div class="marquee">
             Assist: <%- statAllTime.assists.basic.displayValue %> &nbsp;&nbsp;
             Kills: <%- statAllTime.kills.basic.displayValue %> &nbsp;&nbsp;
@@ -29,6 +29,11 @@
             K/D: <%- statAllTime.killsDeathsRatio.basic.displayValue %> &nbsp;&nbsp;
             KA/D: <%- statAllTime.killsDeathsAssists.basic.displayValue %>
         </div>
+        <% } else { %>
+        <div class="noData">
+            No Data Available
+        </div>
+        <% } %>
     </div>
 
     <script>
