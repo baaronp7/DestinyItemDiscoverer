@@ -14,7 +14,9 @@
                 <div class="weaponImg">
                     <img src="https://www.bungie.net<%- item.icon %>"/>
                 </div>
-                <b><%- item.tierTypeName %> <%- item.itemTypeName %></b><br/>
+                <span class="gunType">
+                    <%- item.tierTypeName %> <%- item.itemTypeName %>
+                </span><br/>
                 <span class="gunName">
                     <%- item.itemName %>
                 </span>
@@ -23,7 +25,6 @@
     <% } %>
     </div>
     </div>
-
     <script>
     $(function() {
         function checkWidths() {
@@ -33,7 +34,7 @@
                 for(var i = 0; i < wContainers.length && i < 3; i++) {
                     totalWidth = totalWidth + $(wContainers[i]).width();
                 }
-                if(totalWidth > 520) {
+                if(totalWidth > 945) {
                     $("div.weaponsBG").removeClass("marquee");
                     $("div.weaponsBG").addClass("marquee");
                     $('.marquee').marquee({

@@ -139,27 +139,31 @@ exports.getRaidHistory = function(stats, raid, difficulty, callback) {
 	var raidStats = {raidCount: 0, raidsCompleted: 0, kills: 0, deaths: 0, assists: 0, kd: 0, kad: 0};
 	
 	var activities = JSON.parse(stats).Response.data.activities;
-	for(var i = 0; i < activities.length; i++) {
-		if(activities[i].activityDetails.referenceId == diff) {
-			raidStats.raidCount++;
-			if(activities[i].values.completed.basic.value == 1) {
-				raidStats.raidsCompleted++;
+	if(activities !== undefined) {
+		for(var i = 0; i < activities.length; i++) {
+			if(activities[i].activityDetails.referenceId == diff) {
+				raidStats.raidCount++;
+				if(activities[i].values.completed.basic.value == 1) {
+					raidStats.raidsCompleted++;
+				}
+				raidStats.kills += activities[i].values.kills.basic.value;
+				raidStats.deaths += activities[i].values.deaths.basic.value;
+				raidStats.assists += activities[i].values.assists.basic.value;
 			}
-			raidStats.kills += activities[i].values.kills.basic.value;
-			raidStats.deaths += activities[i].values.deaths.basic.value;
-			raidStats.assists += activities[i].values.assists.basic.value;
 		}
+		raidStats.kd = raidStats.kills/raidStats.deaths;
+		if(isNaN(raidStats.kd)) {
+			raidStats.kd = 0;
+		}
+		raidStats.kd = raidStats.kd.toFixed(2);
+		raidStats.kad = (raidStats.kills+raidStats.assists)/raidStats.deaths;
+		if(isNaN(raidStats.kad)) {
+			raidStats.kad = 0;
+		}
+		raidStats.kad = raidStats.kad.toFixed(2);
+	} else {
+		raidStats = "No Data";
 	}
-	raidStats.kd = raidStats.kills/raidStats.deaths;
-	if(isNaN(raidStats.kd)) {
-		raidStats.kd = 0;
-	}
-	raidStats.kd = raidStats.kd.toFixed(2);
-	raidStats.kad = (raidStats.kills+raidStats.assists)/raidStats.deaths;
-	if(isNaN(raidStats.kad)) {
-		raidStats.kad = 0;
-	}
-	raidStats.kad = raidStats.kad.toFixed(2);
 	callback(raidStats);
 };
 
@@ -179,7 +183,6 @@ exports.getStats = function(memType, account, character, mode, callback) {
 			bodyChunks.push(chunk);
 	  }).on('end', function() {
 			contentsJSON = Buffer.concat(bodyChunks);
-			console.log(contentsJSON.toString());
 			callback(contentsJSON);
 	  })
 

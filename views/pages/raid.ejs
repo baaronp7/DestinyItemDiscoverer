@@ -18,7 +18,8 @@
             <%- classes[parseInt(characterBase.classType)] %>
             Light <%- characterBase.powerLevel %>
         </div><br/>
-        <div class="marquee">
+        <div class="stats">
+            <%if(stats.raidCount !== undefined) { %>
             Attempts: <%- stats.raidCount %> &nbsp;&nbsp;
             Completions: <%- stats.raidsCompleted %> &nbsp;&nbsp;
             Assist: <%- stats.assists %> &nbsp;&nbsp;
@@ -26,6 +27,9 @@
             Deaths: <%- stats.deaths %> &nbsp;&nbsp;
             K/D: <%- stats.kd %> &nbsp;&nbsp;
             KA/D: <%- stats.kad %>
+            <% } else { %>
+                <%- stats %>
+            <% } %>
         </div>
     </div>
 

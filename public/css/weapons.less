@@ -2,14 +2,14 @@ body {
     margin: 0;
 
     div.weaponsBG {
-        width: 550px;
-        height: 30px;
+        width: 530px;
+        height: 35px;
         background-color: #121C1E;
         display: none;
 
         div.weaponsContainer {
             font-family: Lato, Arial, Helvetica, sans-serif;
-            font-size: 12px;
+            font-size: 11px;
             display: inline-block;
             color: #f3f3f3;
 
@@ -20,19 +20,22 @@ body {
                 margin-left: 10px;
                 display: block;
                 white-space: nowrap;
+                line-height: 3px;
             
                 div.weaponImg {
                     float: left;
                     margin-right: 10px;
 
                     img {
-                        width: 30px;
-                        height: 30px;
+                        width: 35px;
+                        height: 35px;
                     }
                 }
-                span.gunName {
+                span.gunType { font-weight: bold; }
+                span.gunType, span.gunName {
                     display: block;
-                    margin-left: 40px;
+                    margin-left: 45px;
+                    margin-top: 8px;
                 }
             }
         }
@@ -40,13 +43,13 @@ body {
     div.weaponsBG.marquee {
         margin-left: 0px;
         margin-right: 0px;
-        width: 550px;
-        height: 30px;
+        width: 530px;
+        height: 35px;
         display: block;
         overflow: hidden;
 
         .js-marquee:first-child > div.weaponsContainer:first-child {
-            margin-left: -550px;
+            margin-left: -600px;
         }
     }
 }

@@ -71,7 +71,7 @@
     <h2>Weapons Display Widget</h2>
     <h3>Discription</h3>
     <p>
-        This API shows your current characters weapon loadout.
+        This API shows your current character's weapon loadout.
     </p>
     <h3>Instructions</h3>
     <p>
@@ -124,6 +124,43 @@
         <a href="http://www.destinyid.com/stream/stats/aggregate?mode=Raid&raid=roi&difficulty=normal&memType=2&account=4611686018462104244" target="_blank">http://www.destinyid.com/stream/stats/aggregate?mode=Raid&amp;raid=roi&amp;difficulty=normal&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span></a><br/>
         Click link above to see DEMO.
     </p>
+
+    <h2>PVP Display Widget</h2>
+    <h3>Discription</h3>
+    <p>
+        This API shows different pvp stats for your current character.
+    </p>
+    <h3>Instructions</h3>
+    <p>
+        <b>Base URL:</b><br/>
+        Local - http://localhost:3000/stream/stats/aggregate<br/>
+        DestinyID.com - http://www.destinyid.com/stream/stats/aggregate
+    </p>
+    <p>
+        <b>Parameters:</b><br/>
+        mode - can be equal to "AllPvP", "TrialsOfOsiris", or "IronBanner"<br/>
+        <form id="modeSelect">
+            Pick The Mode You Want to See:<br/>
+            <select class="mode">
+                <option value="AllPvP">AllPvP</option>
+                <option value="TrialsOfOsiris">TrialsOfOsiris</option>
+                <option value="IronBanner">IronBanner</option>
+            </select>
+            <input type="submit" class="submitAccount" value="Submit"/>
+            <span class="formMsg">Link Updated!</span>
+        </form>
+    </p>
+    <p>
+        <b>Dimensions:</b><br/>
+        width - 300px<br/>
+        height - 30px
+    </p>
+    <p>
+        <b>URL Example:</b><br/>
+        <a href="http://www.destinyid.com/stream/stats/aggregate?mode=AllPvP&memType=2&account=4611686018462104244" target="_blank">http://www.destinyid.com/stream/stats/aggregate?mode=<span class="mode">AllPvP</span>&amp;memType=<span class="memType">2</span>&amp;account=<span class="account">4611686018462104244</span></a><br/>
+        Click link above to see DEMO.
+    </p>
+
     <h2>NightBot Commands</h2>
     <h3>Discription</h3>
     <p>
@@ -223,6 +260,19 @@
                 var _href = $(this).attr('href'); 
                 _href = _href.replace(/memType=[^&]+/, 'memType=' + type);
                 _href = _href.replace(/account=[^&]+/, 'account=' + id);
+                $(this).attr('href', _href);
+            });
+            $("span.formMsg").fadeIn(1000).delay(1000).fadeOut(1000);
+            return false;
+        });
+        $("#modeSelect").on("submit", function(){
+            var mode = $("select.mode").val();
+            $("span.mode").each(function(){
+                $(this).text(mode);
+            });
+            $('a').each(function(){
+                var _href = $(this).attr('href'); 
+                _href = _href.replace(/mode=[^&]+/, 'mode=' + mode);
                 $(this).attr('href', _href);
             });
             $("span.formMsg").fadeIn(1000).delay(1000).fadeOut(1000);
