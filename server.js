@@ -15,7 +15,7 @@ app.use(less(__dirname + '/public'));
 app.use(express.static(__dirname + '/public'));
 app.use(partial());
 
-app.get('/', function (req, res) {
+app.get('/home', function (req, res) {
   var categories = req.query.categories;
   var rarity = req.query.rarity;
   var page = req.query.page;
@@ -72,7 +72,7 @@ app.get('/music', function (req, res) {
   });
 });
 
-app.get('/stream', function (req, res) {
+app.get('/', function (req, res) {
    res.render('pages/api', {
     cssFiles: ['/css/api.css']
   });
