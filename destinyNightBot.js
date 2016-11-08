@@ -193,36 +193,32 @@ exports.getStats = function(memType, account, character, mode, callback) {
 	});
 };
 
-exports.getCurrentViewers = function(callback) {
+exports.getCurrentViewers = function(twitchAccount, callback) {
 	var request = require("request");
 
 	var options = { method: 'GET',
 		url: 'https://api.twitch.tv/kraken/streams',
-		qs: { channel: 'akabennyp' },
+		qs: { channel: twitchAccount },
 		headers: { 'cache-control': 'no-cache', 'client-id': '356183dj0szhj1di32a4td2rcqs40qp' } 
 	};
 
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
-
-		console.log(body);
 		callback(body);
 	});
 };
 
-exports.getLastFollower = function(callback) {
+exports.getLastFollower = function(twitchAccount, callback) {
 	var request = require("request");
 
 	var options = { method: 'GET',
-		url: 'https://api.twitch.tv/kraken/channels/akabennyp/follows',
+		url: 'https://api.twitch.tv/kraken/channels/'+twitchAccount+'/follows',
 		qs: { limit: '1' },
 		headers: { 'cache-control': 'no-cache', 'client-id': '356183dj0szhj1di32a4td2rcqs40qp' }
 	};
 
 	request(options, function (error, response, body) {
 		if (error) throw new Error(error);
-
-		console.log(body);
 		callback(body);
 	});
 }

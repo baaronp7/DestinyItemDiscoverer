@@ -78,6 +78,28 @@ app.get('/', function (req, res) {
   });
 });
 
+app.get('/stream/lastFollower', function (req, res) {
+  var twitchAccount = req.query.twitchAccount;
+  if(twitchAccount == undefined)
+    twitchAccount = "akabennyp";
+  destinyNightBot.getLastFollower(twitchAccount, function(lastFollower) {
+    res.render('pages/json', {
+      json: lastFollower
+    });
+  });
+});
+
+app.get('/stream/currentViewers', function (req, res) {
+  var twitchAccount = req.query.twitchAccount;
+  if(twitchAccount == undefined)
+    twitchAccount = "akabennyp";
+  destinyNightBot.getCurrentViewers(twitchAccount, function(currentViewers) {
+    res.render('pages/json', {
+      json: currentViewers
+    });
+  });
+});
+
 app.get('/stream/stat', function (req, res) {
   var memType = req.query.memType;
   if(memType == undefined)
@@ -152,7 +174,7 @@ app.get('/stream/stats', function (req, res) {
           characterBase: JSON.parse(json).Response.data.characterBase,
           stats: stats,
           games: games,
-          mode: mode,
+          mode: mode
         });
       });
     });
@@ -174,6 +196,15 @@ app.get('/stream/stats/aggregate', function (req, res) {
   if(mode == undefined)
     mode = "TrialsOfOsiris";
 
+  var styles = {bgColor: "#121C1E", color: "#f3f3f3"}
+  if(req.query.bgColor != null) {
+    styles.bgColor = req.query.bgColor;
+  }
+
+  if(req.query.color != null) {
+    styles.color = req.query.color;
+  }
+
   destinyNightBot.getAccount(memType, account, function(accountJSON) {
     var getCharacter = null;
 
@@ -191,7 +222,8 @@ app.get('/stream/stats/aggregate', function (req, res) {
             cssFiles: ['/css/pvp.css'],
             characterBase: JSON.parse(json).Response.data.characterBase,
             stats: stats,
-            mode: mode
+            mode: mode,
+            styles: styles
           });
         });
       } else {
@@ -209,7 +241,8 @@ app.get('/stream/stats/aggregate', function (req, res) {
               stats: raidStats,
               raid: raid,
               difficulty: difficulty,
-              mode: mode
+              mode: mode,
+              styles: styles
             });
           });
         });
@@ -232,6 +265,16 @@ app.get('/stream/stats/weapons', function (req, res) {
   var type = req.query.type;
   if(type == undefined)
     type = "ALL";
+  
+  var styles = {bgColor: "#121C1E", color: "#f3f3f3"}
+  if(req.query.bgColor != null) {
+    styles.bgColor = req.query.bgColor;
+  }
+
+  if(req.query.color != null) {
+    styles.color = req.query.color;
+  }
+
 
   destinyNightBot.getAccount(memType, account, function(accountJSON) {
     var getCharacter = null;
@@ -250,7 +293,8 @@ app.get('/stream/stats/weapons', function (req, res) {
           cssFiles: ['/css/weapons.css'],
           type: type,
           characterBase: JSON.parse(json).Response.data.characterBase,
-          items: items
+          items: items,
+          styles: styles
         });
       });
     });

@@ -37,6 +37,9 @@
     </div>
 
     <script>
+        <% if(styles !== undefined) { %>
+            $('div.pvpContainer').css({"background-color": "<%- styles.bgColor %>", "color": "<%- styles.color %>"})
+        <% } %>
         /*$('.marquee').marquee({
             //speed in milliseconds of the marquee
             duration: 8000,

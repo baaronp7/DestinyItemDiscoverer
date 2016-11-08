@@ -27,6 +27,9 @@
     </div>
     <script>
     $(function() {
+        <% if(styles !== undefined) { %>
+            $('div.weaponsBG').css({"background-color": "<%- styles.bgColor %>", "color": "<%- styles.color %>"})
+        <% } %>
         function checkWidths() {
             $("div.weaponContainer").ready(function() {
                 var wContainers = $("div.weaponContainer");
