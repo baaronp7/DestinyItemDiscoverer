@@ -267,8 +267,24 @@
                     var _href = $(this).attr('href'); 
                     _href = _href.replace(/memType=[^&]+/, 'memType=' + type);
                     _href = _href.replace(/account=[^&]+/, 'account=' + id);
-                    _href = _href + "&amp;bgColor="+bgColor+"&amp;color="+color;
-                    $(this).text($(this).text() + "&bgColor="+bgColor+"&color="+color);
+                    console.log(_href);
+                    
+                    if(_href.indexOf("bgColor") != -1) {
+                        _href = _href.replace(/bgColor=[^&]+/, 'bgColor=' + bgColor);
+                        $(this).text($(this).text().replace(/bgColor=[^&]+/, "bgColor="+bgColor));
+                        console.log("test");
+                    } else {
+                        _href = _href + "&bgColor="+bgColor;
+                        $(this).text($(this).text() + "&bgColor="+bgColor);
+                        console.log("test 2");
+                    }
+                    if(_href.indexOf("color") != -1) {
+                        _href = _href.replace(/color=[^&]+/, 'color=' + color);
+                        $(this).text($(this).text().replace(/color=[^&]+/, "color="+color));
+                    } else {
+                        _href = _href + "&color="+color;
+                        $(this).text($(this).text() + "&color="+color);
+                    }
                     $(this).attr('href', _href);
                 }
             });
