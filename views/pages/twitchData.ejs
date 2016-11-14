@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="<%= cssFiles[0] %>">
+    <script src="https://code.jquery.com/jquery-1.12.2.min.js" integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="dataContainer">
+        <div class="textContainer">
+            <div class="text"><%- text %></div> <div class="data"><%- data %></div>
+        </div>
+    </div>
+
+    <script>
+    <% if(styles !== undefined) { %>
+        $('div.dataContainer').css({"background-color": "<%- styles.bgColor %>", "color": "<%- styles.color %>"})
+    <% } %>
+    $(function() {
+        var firstUpdate = true;
+        function update() {
+            $.ajax({
+                url: window.location.href
+            }).done(function(data) {
+                $('div.data').text($(data).find('div.data').text());
+            });
+        }
+        setInterval(update, 30000);
+    });
+    </script>
+</body>
+</html>

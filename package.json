@@ -20,6 +20,8 @@
     "https": "^1.0.0",
     "http": "^0.0.0",
     "tough-cookie": "^2.3.2",
-    "zombie": "^4.2.1"
+    "zombie": "^4.2.1",
+    "passport": ">= 0.0.0",
+    "passport-twitchtv": ">= 0.0.0"
   }
 }

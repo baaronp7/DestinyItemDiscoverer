@@ -23,6 +23,7 @@
             <option value="2">Playstation 4</option>
         </select><br/>
         Account ID: <input type="text" class="accountNum" maxlength="19"/><br/>
+        Twitch Channel: <input type="text" class="twitchChan"/><br/>
         Background Color: <input value="121C1E" maxlength="6" class="bgColor jscolor {width:243, height:150, position:'right',
     borderColor:'#FFF', insetColor:'#FFF', backgroundColor:'#666'}"><br/>
         Text Color: <input value="f3f3f3" maxlength="6" class="color jscolor {width:243, height:150, position:'right',
@@ -70,6 +71,42 @@
             <li>Scale Source to Desired Size</li>
             <li>Congrats! Your Done</li>
         </ol>
+    </p>
+
+    <h2>Twitch Widget</h2>
+    <h3>Discription</h3>
+    <p>
+        This API shows things about your twitch channel.
+    </p>
+    <h3>Instructions</h3>
+    <p>
+        <b>Base URL:</b><br/>
+        Local - http://localhost:3000/stream/<span class="type">viewers</span><br/>
+        DestinyID.com - http://www.destinyid.com/stream/<span class="type">viewers</span>
+    </p>
+    <p>
+        <b>Parameters:</b><br/>
+        twitchAccount - your channel id<br/>
+        <form id="typeSelect">
+            Pick The Type of Twitch Widget you Want:<br/>
+            <select class="type">
+                <option value="viewers">Viewers</option>
+                <option value="followers">Followers</option>
+                <option value="lastFollower">Last Follower</option>
+            </select>
+            <input type="submit" class="submitType" value="Submit"/>
+            <span class="formMsg">Link Updated!</span>
+        </form>
+    </p>
+    <p>
+        <b>Dimensions:</b><br/>
+        width - 530px<br/>
+        height - 35px
+    </p>
+    <p>
+        <b>URL Example:</b><br/>
+        <a href="http://www.destinyid.com/stream/viewers?twitchAccount=akabennyp" target="_blank">http://www.destinyid.com/stream/<span class="type">viewers</span>?twitchAccount=<span class="taccount">akabennyp</span></a><br/>
+        Click link above to see DEMO.
     </p>
 
     <h2>Weapons Display Widget</h2>
@@ -254,6 +291,7 @@
         $("#accountInfo").on("submit", function(){
             var type = $("select.accountType").val();
             var id = $("input.accountNum").val();
+            var tchan = $("input.twitchChan").val();
             var bgColor = $("input.bgColor").val();
             var color = $("input.color").val();
             $("span.memType").each(function(){
@@ -262,11 +300,15 @@
             $("span.account").each(function(){
                 $(this).text(id);
             });
+            $("span.taccount").each(function(){
+                $(this).text(tchan);
+            });
             $('a').each(function(){
                 if(!$(this).hasClass("bungie")) {
                     var _href = $(this).attr('href'); 
                     _href = _href.replace(/memType=[^&]+/, 'memType=' + type);
                     _href = _href.replace(/account=[^&]+/, 'account=' + id);
+                    _href = _href.replace(/twitchAccount=[^&]+/, 'twitchAccount=' + tchan);
                     console.log(_href);
                     
                     if(_href.indexOf("bgColor") != -1) {
@@ -300,6 +342,21 @@
                 var _href = $(this).attr('href'); 
                 _href = _href.replace(/mode=[^&]+/, 'mode=' + mode);
                 $(this).attr('href', _href);
+            });
+            $("span.formMsg").fadeIn(1000).delay(1000).fadeOut(1000);
+            return false;
+        });
+        $("#typeSelect").on("submit", function(){
+            var type = $("select.type").val();
+            $("span.type").each(function(){
+                $(this).text(type);
+            });
+            $('a').each(function(){
+                var _href = $(this).attr('href'); 
+                _href = _href.replace(/(?=[^\/]*$)(.?)*(\?)/, type + "?");
+                $(this).attr('href', _href);
+                var aText = $(this).text().replace(/(?=[^\/]*$)(.?)*(\?)/, type + "?");
+                $(this).text(aText);
             });
             $("span.formMsg").fadeIn(1000).delay(1000).fadeOut(1000);
             return false;

@@ -193,12 +193,12 @@ exports.getStats = function(memType, account, character, mode, callback) {
 	});
 };
 
-exports.getCurrentViewers = function(twitchAccount, callback) {
+exports.getViewers = function(twitchAccount, callback) {
 	var request = require("request");
 
 	var options = { method: 'GET',
 		url: 'https://api.twitch.tv/kraken/streams',
-		qs: { channel: twitchAccount },
+		qs: { channel: twitchAccount, t: new Date().getTime() },
 		headers: { 'cache-control': 'no-cache', 'client-id': '356183dj0szhj1di32a4td2rcqs40qp' } 
 	};
 
@@ -214,6 +214,49 @@ exports.getLastFollower = function(twitchAccount, callback) {
 	var options = { method: 'GET',
 		url: 'https://api.twitch.tv/kraken/channels/'+twitchAccount+'/follows',
 		qs: { limit: '1' },
+		headers: { 'cache-control': 'no-cache', 'client-id': '356183dj0szhj1di32a4td2rcqs40qp' }
+	};
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+		callback(body);
+	});
+}
+
+exports.getFollowers = function(twitchAccount, callback) {
+	var request = require("request");
+
+	var options = { method: 'GET',
+		url: 'https://api.twitch.tv/kraken/channels/'+twitchAccount+'/follows',
+		headers: { 'cache-control': 'no-cache', 'client-id': '356183dj0szhj1di32a4td2rcqs40qp' }
+	};
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+		callback(body);
+	});
+}
+
+exports.getLastSubscription = function(twitchAccount, callback) {
+	var request = require("request");
+
+	var options = { method: 'GET',
+		url: 'https://api.twitch.tv/kraken/channels/'+twitchAccount+'/subscriptions',
+		qs: { limit: '1' },
+		headers: { 'cache-control': 'no-cache', 'client-id': '356183dj0szhj1di32a4td2rcqs40qp' }
+	};
+
+	request(options, function (error, response, body) {
+		if (error) throw new Error(error);
+		callback(body);
+	});
+}
+
+exports.getSubscriptions = function(twitchAccount, callback) {
+	var request = require("request");
+
+	var options = { method: 'GET',
+		url: 'https://api.twitch.tv/kraken/channels/'+twitchAccount+'/subscriptions',
 		headers: { 'cache-control': 'no-cache', 'client-id': '356183dj0szhj1di32a4td2rcqs40qp' }
 	};
 

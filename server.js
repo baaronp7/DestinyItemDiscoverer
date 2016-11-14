@@ -4,6 +4,7 @@ var express = require('express');
 var partial = require('express-partial');
 var less = require('less-middleware');
 var app = express();
+passport = require('passport');
 
 var destinyAPI = require('./destinyPlatformAPI');
 var destinyNightBot = require('./destinyNightBot');
@@ -14,6 +15,45 @@ app.set('view engine', 'ejs');
 app.use(less(__dirname + '/public'));
 app.use(express.static(__dirname + '/public'));
 app.use(partial());
+
+var TwitchtvStrategy = require('passport-twitchtv').Strategy;
+var TWITCH_CLIENT_ID = "356183dj0szhj1di32a4td2rcqs40qp";
+var TWITCH_CLIENT_SECRET = "nxrqetanmjnlinvpv5pzulm7mrwuo62";
+
+passport.use(new TwitchtvStrategy({
+    clientID: TWITCH_CLIENT_ID,
+    clientSecret: TWITCH_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/twitchtv/callback",
+    scope: "channel_subscriptions"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ twitchtvId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+app.get('/auth/twitchtv', passport.authenticate('twitchtv'));
+
+app.get('/auth/twitchtv/callback', 
+  passport.authenticate('twitchtv', { failureRedirect: '/login' }),
+  function(req, res) {
+    console.log("TEST2");
+    if (err) {console.log("TEST"); return next(err); }
+    // Successful authentication, redirect home.
+    console.log("TEST2");
+    console.log(req.query.code);
+    res.redirect('/');
+  }
+);
 
 app.get('/home', function (req, res) {
   var categories = req.query.categories;
@@ -78,24 +118,108 @@ app.get('/', function (req, res) {
   });
 });
 
-app.get('/stream/lastFollower', function (req, res) {
+app.get('/stream/viewers', function (req, res) {
   var twitchAccount = req.query.twitchAccount;
   if(twitchAccount == undefined)
     twitchAccount = "akabennyp";
-  destinyNightBot.getLastFollower(twitchAccount, function(lastFollower) {
-    res.render('pages/json', {
-      json: lastFollower
+
+  var styles = {bgColor: "#121C1E", color: "#f3f3f3"}
+  if(req.query.bgColor != null) {
+    styles.bgColor = req.query.bgColor;
+  }
+
+  if(req.query.color != null) {
+    styles.color = req.query.color;
+  }
+
+  destinyNightBot.getViewers(twitchAccount, function(currentViewers) {
+    if(JSON.parse(currentViewers).streams[0] == undefined){
+      res.render('pages/twitchData', {
+        cssFiles: ['/css/twitchData.css'],
+        text: "Current Viewers:",
+        data: "0",
+        styles: styles
+      });
+    } else {
+      res.render('pages/twitchData', {
+        cssFiles: ['/css/twitchData.css'],
+        text: "Current Viewers:",
+        data: JSON.parse(currentViewers).streams[0].viewers,
+        styles: styles
+      });
+    }
+  });
+});
+
+app.get('/stream/followers', function (req, res) {
+  var twitchAccount = req.query.twitchAccount;
+  if(twitchAccount == undefined)
+    twitchAccount = "akabennyp";
+
+  var styles = {bgColor: "#121C1E", color: "#f3f3f3"}
+  if(req.query.bgColor != null) {
+    styles.bgColor = req.query.bgColor;
+  }
+
+  if(req.query.color != null) {
+    styles.color = req.query.color;
+  }
+
+  destinyNightBot.getFollowers(twitchAccount, function(followers) {
+    res.render('pages/twitchData', {
+      cssFiles: ['/css/twitchData.css'],
+      text: "Follower Count:",
+      data: JSON.parse(followers)._total,
+      styles: styles
     });
   });
 });
 
-app.get('/stream/currentViewers', function (req, res) {
+app.get('/stream/lastFollower', function (req, res) {
   var twitchAccount = req.query.twitchAccount;
   if(twitchAccount == undefined)
     twitchAccount = "akabennyp";
-  destinyNightBot.getCurrentViewers(twitchAccount, function(currentViewers) {
-    res.render('pages/json', {
-      json: currentViewers
+
+  var styles = {bgColor: "#121C1E", color: "#f3f3f3"}
+  if(req.query.bgColor != null) {
+    styles.bgColor = req.query.bgColor;
+  }
+
+  if(req.query.color != null) {
+    styles.color = req.query.color;
+  }
+
+  destinyNightBot.getLastFollower(twitchAccount, function(lastFollower) {
+    res.render('pages/twitchData', {
+      cssFiles: ['/css/twitchData.css'],
+      text: "Last Follower:",
+      data: JSON.parse(lastFollower).follows[0].user.display_name,
+      styles: styles
+    });
+  });
+});
+
+app.get('/stream/subscriptions', function (req, res) {
+  var twitchAccount = req.query.twitchAccount;
+  if(twitchAccount == undefined)
+    twitchAccount = "akabennyp";
+
+  var styles = {bgColor: "#121C1E", color: "#f3f3f3"}
+  if(req.query.bgColor != null) {
+    styles.bgColor = req.query.bgColor;
+  }
+
+  if(req.query.color != null) {
+    styles.color = req.query.color;
+  }
+
+  destinyNightBot.getSubscriptions(twitchAccount, function(subscriptions) {
+    res.render('pages/twitchData', {
+      cssFiles: ['/css/twitchData.css'],
+      text: "Sub Count:",
+      data: JSON.parse(subscriptions)._total,
+      subscriptions: subscriptions,
+      styles: styles
     });
   });
 });
