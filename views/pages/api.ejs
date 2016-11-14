@@ -1,0 +1,367 @@
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+    <script src="../../js/jscolor.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>DesitnyID.com Streamer API</h1>
+    <p>
+        This page is dedicated to explianing how to use the Destiny ID API. Please follow the instructions blow to use the api you want.
+    </p>
+    <h2>Display Widgets</h2>
+    <h3>Discription</h3>
+    <p>
+        These widgets are desinged to be overlays for Destiny streamers.
+    </p>
+    <h3>Instructions</h3>
+    <p>
+    Bungie Account Info<br/>
+    <form id="accountInfo">
+        Account Type: 
+        <select class="accountType">
+            <option value="1">Xbox One</option>
+            <option value="2">Playstation 4</option>
+        </select><br/>
+        Account ID: <input type="text" class="accountNum" maxlength="19"/><br/>
+        Twitch Channel: <input type="text" class="twitchChan"/><br/>
+        Background Color: <input value="121C1E" maxlength="6" class="bgColor jscolor {width:243, height:150, position:'right',
+    borderColor:'#FFF', insetColor:'#FFF', backgroundColor:'#666'}"><br/>
+        Text Color: <input value="f3f3f3" maxlength="6" class="color jscolor {width:243, height:150, position:'right',
+    borderColor:'#FFF', insetColor:'#FFF', backgroundColor:'#666'}"><br/>
+        <input type="submit" class="submitAccount" value="Submit"/>
+        <span class="formMsg">Links Updated!</span>
+    </form>
+    </p>
+    <p>
+    Get Bungie Account ID<br/>
+    <ol>
+        <li>Go to <a class="bungie" href="www.bungie.net">Bungie.net</a></li>
+        <li>Login</li>
+        <li>Go to "MY LEGEND" > "Gear"</li>
+        <li>
+            <div>
+                Look at the URL, Sound Look Simmalar to this<br/>
+                https://www.bungie.net/en/Legend/gear/<span class="highligtGreen">1</span>/<span class="highligtRed">4611686018429670931</span>/<span class="highligtYellow">2305843009415414505</span><br/>
+                <div class="greenBox">Member Type (1 Xbox, 2 PS4)</div>
+                <div class="redBox">Account ID</div>
+                <div class="yellowBox">Character ID</div><br/>
+            </div>
+        </li>
+        <li>Choose the Account Type from the Dropdwon Above that Corresponds to Your Byngie Account</li>
+        <li>Copy the Account ID and Paste it in the "Account ID" feild above</li>
+        <li>Click Submit</li>
+        <li>The API Links Below will Update to Show Your Accounts Information.</li>
+    </ol>
+    </p>
+    <p>
+    OBS Installation:
+        <ol>
+            <li>Pick Your Display Widget</li>
+            <li>Follow Instuctions for that Display Widget</li>
+            <li>Copy the Display Widget URL</li>
+            <li>Open OBS</li>
+            <li>Click the Plus Icon Under "Sources" Panel</li>
+            <li>Choose "BrowserSource" From the Menu</li>
+            <li>Choose "Create new" and Give it a Name</li>
+            <li>Click "OK"</li>
+            <li>Paste Display Widget URL into the "URL" Field</li>
+            <li>Enter the Height and Width from the Display Widget Instructions into the "Height" and "Width" Fields</li>
+            <li>Optional: Set "FPS" Field to 60</li>
+            <li>Click "OK"</li>
+            <li>Scale Source to Desired Size</li>
+            <li>Congrats! Your Done</li>
+        </ol>
+    </p>
+
+    <h2>Twitch Widget</h2>
+    <h3>Discription</h3>
+    <p>
+        This API shows things about your twitch channel.
+    </p>
+    <h3>Instructions</h3>
+    <p>
+        <b>Base URL:</b><br/>
+        Local - http://localhost:3000/stream/<span class="type">viewers</span><br/>
+        DestinyID.com - http://www.destinyid.com/stream/<span class="type">viewers</span>
+    </p>
+    <p>
+        <b>Parameters:</b><br/>
+        twitchAccount - your channel id<br/>
+        <form id="typeSelect">
+            Pick The Type of Twitch Widget you Want:<br/>
+            <select class="type">
+                <option value="viewers">Viewers</option>
+                <option value="followers">Followers</option>
+                <option value="lastFollower">Last Follower</option>
+            </select>
+            <input type="submit" class="submitType" value="Submit"/>
+            <span class="formMsg">Link Updated!</span>
+        </form>
+    </p>
+    <p>
+        <b>Dimensions:</b><br/>
+        width - 530px<br/>
+        height - 35px
+    </p>
+    <p>
+        <b>URL Example:</b><br/>
+        <a href="http://www.destinyid.com/stream/viewers?twitchAccount=akabennyp" target="_blank">http://www.destinyid.com/stream/<span class="type">viewers</span>?twitchAccount=<span class="taccount">akabennyp</span></a><br/>
+        Click link above to see DEMO.
+    </p>
+
+    <h2>Weapons Display Widget</h2>
+    <h3>Discription</h3>
+    <p>
+        This API shows your current character's weapon loadout.
+    </p>
+    <h3>Instructions</h3>
+    <p>
+        <b>Base URL:</b><br/>
+        Local - http://localhost:3000/stream/stats/weapons<br/>
+        DestinyID.com - http://www.destinyid.com/stream/stats/weapons
+    </p>
+    <p>
+        <b>Parameters:</b><br/>
+        memType - for an XboxOne Account set equal to 1 for a PS4 account set equal to 2<br/>
+        account - your Bungie Account Number
+    </p>
+    <p>
+        <b>Dimensions:</b><br/>
+        width - 530px<br/>
+        height - 35px
+    </p>
+    <p>
+        <b>URL Example:</b><br/>
+        <a href="http://www.destinyid.com/stream/stats/weapons?memType=1&amp;account=4611686018429670931" target="_blank">http://www.destinyid.com/stream/stats/weapons?memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span></a><br/>
+        Click link above to see DEMO.
+    </p>
+
+    <h2>Raid Display Widget</h2>
+    <h3>Discription</h3>
+    <p>
+        This API shows your current characters raid stats.
+    </p>
+    <h3>Instructions</h3>
+    <p>
+        <b>Base URL:</b><br/>
+        Local - http://localhost:3000/stream/stats/aggregate<br/>
+        DestinyID.com - http://www.destinyid.com/stream/stats/aggregate
+    </p>
+    <p>
+        <b>Parameters:</b><br/>
+        mode - should be set to "Raid"<br/>
+        raid - which raid to view stats from "ttk" Taken King or "roi" Rise Of Iron<br/>
+        difficulty - set to either normal or heroic<br/>
+        memType - for an XboxOne Account set equal to 1 for a PS4 account set equal to 2<br/>
+        account - your Bungie Account Number
+    </p>
+    <p>
+        <b>Dimensions:</b><br/>
+        width - 530px<br/>
+        height - 35px
+    </p>
+    <p>
+        <b>URL Example:</b><br/>
+        <a href="http://www.destinyid.com/stream/stats/aggregate?mode=Raid&raid=roi&difficulty=normal&memType=1&account=4611686018429670931" target="_blank">http://www.destinyid.com/stream/stats/aggregate?mode=Raid&amp;raid=roi&amp;difficulty=normal&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span></a><br/>
+        Click link above to see DEMO.
+    </p>
+
+    <h2>PVP Display Widget</h2>
+    <h3>Discription</h3>
+    <p>
+        This API shows different pvp stats for your current character.
+    </p>
+    <h3>Instructions</h3>
+    <p>
+        <b>Base URL:</b><br/>
+        Local - http://localhost:3000/stream/stats/aggregate<br/>
+        DestinyID.com - http://www.destinyid.com/stream/stats/aggregate
+    </p>
+    <p>
+        <b>Parameters:</b><br/>
+        mode - can be equal to "AllPvP", "TrialsOfOsiris", or "IronBanner"<br/>
+        <form id="modeSelect">
+            Pick The Mode You Want to See:<br/>
+            <select class="mode">
+                <option value="AllPvP">AllPvP</option>
+                <option value="TrialsOfOsiris">TrialsOfOsiris</option>
+                <option value="IronBanner">IronBanner</option>
+            </select>
+            <input type="submit" class="submitAccount" value="Submit"/>
+            <span class="formMsg">Link Updated!</span>
+        </form>
+    </p>
+    <p>
+        <b>Dimensions:</b><br/>
+        width - 530px<br/>
+        height - 35px
+    </p>
+    <p>
+        <b>URL Example:</b><br/>
+        <a href="http://www.destinyid.com/stream/stats/aggregate?mode=AllPvP&memType=1&account=4611686018429670931" target="_blank">http://www.destinyid.com/stream/stats/aggregate?mode=<span class="mode">AllPvP</span>&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span></a><br/>
+        Click link above to see DEMO.
+    </p>
+
+    <h2>NightBot Commands</h2>
+    <h3>Discription</h3>
+    <p>
+        List of NightBot commands that can be used with NightBot in Twitch Chat
+    </p>
+    <h3>Instructions</h3>
+    <p>
+        <ol>
+            <li>Pick the NightBot Command You Want to Use</li>
+            <li>Copy the Command Text</li>
+            <li>Login to Your NightBot Account</li>
+            <li>Clcik "Commands" Then Click "Custom"</li>
+            <li>Click the "+ Add Command" button</li>
+            <li>Enter the Name of Your Command in the "Command" Field</li>
+            <li>Paste the Command Text Into the "Message" Field</li>
+            <li>Click "Submit" button</li>
+            <li>Congrats! You've Created Your First Custom NightBot Command.</li>
+        </ol>
+    </p>
+    <h3>Commands:</h3>
+    <p>
+        <table>
+            <tr>
+                <th>Command</th>
+                <th>Message</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>!gear</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stat?memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Gets a List of All of Your Character's Gear</td>
+            </tr>
+            <tr>
+                <td>!loadout</td>
+                <td>$(urlfetch ttp://www.destinyid.com/stream/stat?type=loadout&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Gets a List of All of Your Character's Weapons and Armor</td>
+            </tr>
+            <tr>
+                <td>!weapons</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stat?type=weapons&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Gets a List of All of Your Character's Weapons</td>
+            </tr>
+            <tr>
+                <td>!armor</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stat?type=armor&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Gets a List of All of Your Character's Armor</td>
+            </tr>
+            <tr>
+                <td>!charstats</td>
+                <td>$(urlfetch  http://www.destinyid.com/stream/stat?type=stats&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Gets a List of All of Your Character's Statistics</td>
+            </tr>
+            <tr>
+                <td>!char</td>
+                <td>$(urlfetch  http://www.destinyid.com/stream/stat?type=char&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Gets a List of All of Your Character's Info</td>
+            </tr>
+            <tr>
+                <td>!cosmetic</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stat?type=cos)</td>
+                <td>Gets a List of All of Your Character's Cosmetic Items</td>
+            </tr>
+            <tr>
+                <td>!trials</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stats?games=3&amp;mode=TrialsOfOsiris&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Show Stats for Your Past 3 Trials Matches</td>
+            </tr>
+            <tr>
+                <td>!trialsgame</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stats?games=1&amp;mode=TrialsOfOsiris&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Show Trials Stats for Your Last Trials Match</td>
+            </tr>
+            <tr>
+                <td>!ironbanner</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stats?games=3&amp;mode=IronBanner&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Show Stats for Your Past 3 IronBanner Matches</td>
+            </tr>
+            <tr>
+                <td>!ironbannergame</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stats?games=1&amp;mode=IronBanner&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>Show Trials Stats for Your Last IronBanner Match</td>
+            </tr>
+        </table> 
+    </p>
+    <script>
+    $(function(){
+        $("#accountInfo").on("submit", function(){
+            var type = $("select.accountType").val();
+            var id = $("input.accountNum").val();
+            var tchan = $("input.twitchChan").val();
+            var bgColor = $("input.bgColor").val();
+            var color = $("input.color").val();
+            $("span.memType").each(function(){
+                $(this).text(type);
+            });
+            $("span.account").each(function(){
+                $(this).text(id);
+            });
+            $("span.taccount").each(function(){
+                $(this).text(tchan);
+            });
+            $('a').each(function(){
+                if(!$(this).hasClass("bungie")) {
+                    var _href = $(this).attr('href'); 
+                    _href = _href.replace(/memType=[^&]+/, 'memType=' + type);
+                    _href = _href.replace(/account=[^&]+/, 'account=' + id);
+                    _href = _href.replace(/twitchAccount=[^&]+/, 'twitchAccount=' + tchan);
+                    console.log(_href);
+                    
+                    if(_href.indexOf("bgColor") != -1) {
+                        _href = _href.replace(/bgColor=[^&]+/, 'bgColor=' + bgColor);
+                        $(this).text($(this).text().replace(/bgColor=[^&]+/, "bgColor="+bgColor));
+                        console.log("test");
+                    } else {
+                        _href = _href + "&bgColor="+bgColor;
+                        $(this).text($(this).text() + "&bgColor="+bgColor);
+                        console.log("test 2");
+                    }
+                    if(_href.indexOf("color") != -1) {
+                        _href = _href.replace(/color=[^&]+/, 'color=' + color);
+                        $(this).text($(this).text().replace(/color=[^&]+/, "color="+color));
+                    } else {
+                        _href = _href + "&color="+color;
+                        $(this).text($(this).text() + "&color="+color);
+                    }
+                    $(this).attr('href', _href);
+                }
+            });
+            $("span.formMsg").fadeIn(1000).delay(1000).fadeOut(1000);
+            return false;
+        });
+        $("#modeSelect").on("submit", function(){
+            var mode = $("select.mode").val();
+            $("span.mode").each(function(){
+                $(this).text(mode);
+            });
+            $('a').each(function(){
+                var _href = $(this).attr('href'); 
+                _href = _href.replace(/mode=[^&]+/, 'mode=' + mode);
+                $(this).attr('href', _href);
+            });
+            $("span.formMsg").fadeIn(1000).delay(1000).fadeOut(1000);
+            return false;
+        });
+        $("#typeSelect").on("submit", function(){
+            var type = $("select.type").val();
+            $("span.type").each(function(){
+                $(this).text(type);
+            });
+            $('a').each(function(){
+                var _href = $(this).attr('href'); 
+                _href = _href.replace(/(?=[^\/]*$)(.?)*(\?)/, type + "?");
+                $(this).attr('href', _href);
+                var aText = $(this).text().replace(/(?=[^\/]*$)(.?)*(\?)/, type + "?");
+                $(this).text(aText);
+            });
+            $("span.formMsg").fadeIn(1000).delay(1000).fadeOut(1000);
+            return false;
+        });
+    });
+    </script>
+</body>
+</html>

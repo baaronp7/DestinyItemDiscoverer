@@ -9,7 +9,9 @@ Light <%- characterBase.powerLevel %><%- ds %><%- ds %>
     <% var stat = JSON.parse(stats).Response.data.activities[i] %>
     <% var gameTime = new Date(stat.period) %>
     Date: <%- String(gameTime.getMonth()+1)+"/"+gameTime.getDate()+" "+gameTime.getHours()+":"+gameTime.getMinutes() %><%- ds %>
-    Score: <%- stat.values.score.basic.displayValue %><%- ds %>
+    <% if(mode != "Raid") { %>
+        Score: <%- stat.values.score.basic.displayValue %><%- ds %>
+    <% } %>
     Assists: <%- stat.values.assists.basic.displayValue %><%- ds %>
     Kills: <%- stat.values.kills.basic.displayValue %><%- ds %>
     Deaths: <%- stat.values.deaths.basic.displayValue %><%- ds %>
