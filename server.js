@@ -23,7 +23,7 @@ var TWITCH_CLIENT_SECRET = "nxrqetanmjnlinvpv5pzulm7mrwuo62";
 passport.use(new TwitchtvStrategy({
     clientID: TWITCH_CLIENT_ID,
     clientSecret: TWITCH_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/twitchtv/callback",
+    callbackURL: "http://www.destinyid.com/auth/twitchtv/callback",
     scope: "channel_subscriptions"
   },
   function(accessToken, refreshToken, profile, done) {
