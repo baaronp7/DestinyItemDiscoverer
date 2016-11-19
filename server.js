@@ -426,7 +426,11 @@ app.get('/stream/stats/weapons', function (req, res) {
 });
 
 app.get('/stream/song', function (req, res) {
-  var url = 'https://www.dropbox.com/s/iuznboreomuddbf/Snip.txt';
+  var url = req.query.url;
+  if(req.query.url == null) {
+    var url = 'https://www.dropbox.com/s/iuznboreomuddbf/Snip.txt';
+  }
+  
   destinyNightBot.getSong(url, function(message){
     res.render('pages/json', {
         json: message
@@ -435,7 +439,20 @@ app.get('/stream/song', function (req, res) {
 });
 
 app.get('/stream/songDisplay', function (req, res) {
-  res.render('pages/song', {cssFiles: ['/css/song.css']});
+  var url = req.query.url;
+  if(req.query.url == null) {
+    var url = 'https://www.dropbox.com/s/iuznboreomuddbf/Snip.txt';
+  }
+
+  var img = req.query.img;
+  if(req.query.img == null) {
+    var img = 'https://www.dropbox.com/s/x1kqmfwbhvjmdh6/Snip_Artwork.jpg?raw=1';
+  }
+  res.render('pages/song', {
+    cssFiles: ['/css/song.css'],
+    song: url,
+    songIMG: img
+  });
 });
 
 app.get('/stream/changeItem', function (req, res) {
