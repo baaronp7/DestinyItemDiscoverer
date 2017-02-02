@@ -1,7 +1,7 @@
 {
-  "name": "node-ejs",
+  "name": "destiny-streamer-api",
   "main": "server.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "node": "6.2.0",
     "npm": "3.8.9"
@@ -23,5 +23,25 @@
     "zombie": "^4.2.1",
     "passport": ">= 0.0.0",
     "passport-twitchtv": ">= 0.0.0"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "API for Destiny Streamers",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baaronp7/DestinyItemDiscoverer.git"
+  },
+  "keywords": [
+    "Destiny",
+    "Twitch",
+    "API"
+  ],
+  "author": "Benjamin Aaron Penton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/baaronp7/DestinyItemDiscoverer/issues"
+  },
+  "homepage": "https://github.com/baaronp7/DestinyItemDiscoverer#readme"
 }

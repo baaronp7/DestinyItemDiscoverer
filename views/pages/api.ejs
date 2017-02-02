@@ -4,9 +4,9 @@
     <script src="../../js/jscolor.min.js" type="text/javascript"></script>
 </head>
 <body>
-    <h1>DesitnyID.com Streamer API</h1>
+    <h1>Destiny Streamer API</h1>
     <p>
-        This page is dedicated to explianing how to use the Destiny ID API. Please follow the instructions blow to use the api you want.
+        This page is dedicated to explianing how to use the Destiny Streamer API. Please follow the instructions blow to use the api you want.
     </p>
     <h2>Display Widgets</h2>
     <h3>Discription</h3>
@@ -15,15 +15,20 @@
     </p>
     <h3>Instructions</h3>
     <p>
-    Bungie Account Info<br/>
+    <b>Settings:</b><br/>
     <form id="accountInfo">
+        Are You Using DestinyID.com or Local: 
+        <select class="platformType">
+            <option value="www.destinyid.com">DestinyID.com</option>
+            <option value="localhost:3000">Local</option>
+        </select><br/>
         Account Type: 
         <select class="accountType">
             <option value="1">Xbox One</option>
             <option value="2">Playstation 4</option>
         </select><br/>
-        Account ID: <input type="text" class="accountNum" maxlength="19"/><br/>
-        Twitch Channel: <input type="text" class="twitchChan"/><br/>
+        Account ID: <input type="text" class="accountNum" placeholder="4611686018429670931" maxlength="19"/><br/>
+        Twitch Channel: <input type="text" placeholder="akabennyp" class="twitchChan"/><br/>
         Background Color: <input value="121C1E" maxlength="6" class="bgColor jscolor {width:243, height:150, position:'right',
     borderColor:'#FFF', insetColor:'#FFF', backgroundColor:'#666'}"><br/>
         Text Color: <input value="f3f3f3" maxlength="6" class="color jscolor {width:243, height:150, position:'right',
@@ -33,9 +38,9 @@
     </form>
     </p>
     <p>
-    Get Bungie Account ID<br/>
+    <b>Get Bungie Account ID:</b><br/>
     <ol>
-        <li>Go to <a class="bungie" href="www.bungie.net">Bungie.net</a></li>
+        <li>Go to <a class="bungie" href="www.bungie.net" target="_blank">Bungie.net</a></li>
         <li>Login</li>
         <li>Go to "MY LEGEND" > "Gear"</li>
         <li>
@@ -54,7 +59,7 @@
     </ol>
     </p>
     <p>
-    OBS Installation:
+    <b>OBS Installation:</b>
         <ol>
             <li>Pick Your Display Widget</li>
             <li>Follow Instuctions for that Display Widget</li>
@@ -70,6 +75,23 @@
             <li>Click "OK"</li>
             <li>Scale Source to Desired Size</li>
             <li>Congrats! Your Done</li>
+        </ol>
+    </p>
+    <p>
+    <b>Local Installation:</b> (optional)
+        <ol>
+            <li>Install <a class="bungie" href="https://nodejs.org/en/download/" target="_blank">Node.JS</a></li>
+            <li>Create a folder called "DestinyStreamerAPI"</li>
+            <li>Download this file and put it into your new folder: <a class="bungie" href="../download/package.json" download>package.json</a></li>
+            <li>Open "Node.js command prompt" on Windows or "Terminal" on Mac</li>
+            <li>Use cd command to navigate to your folder</li>
+            <li>Run "npm install --save-dev destiny-streamer-api"</li>
+            <li>Run "cd node_modules/destiny-streamer-api"</li>
+            <li>Run "node server.js"</li>
+            <li>Open a browser</li>
+            <li>Go to "http://localhost:3000"</li>
+            <li>Awesome, You Did It!</li>
+            <li>Make sure you run "node server.js" before you start streamin or your commands and overlays will not work</li>
         </ol>
     </p>
 
@@ -100,8 +122,8 @@
     </p>
     <p>
         <b>Dimensions:</b><br/>
-        width - 530px<br/>
-        height - 35px
+        width - 150px<br/>
+        height - 25px
     </p>
     <p>
         <b>URL Example:</b><br/>
@@ -236,7 +258,7 @@
             </tr>
             <tr>
                 <td>!loadout</td>
-                <td>$(urlfetch ttp://www.destinyid.com/stream/stat?type=loadout&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
+                <td>$(urlfetch http://www.destinyid.com/stream/stat?type=loadout&amp;memType=<span class="memType">1</span>&amp;account=<span class="account">4611686018429670931</span>)</td>
                 <td>Gets a List of All of Your Character's Weapons and Armor</td>
             </tr>
             <tr>
@@ -289,6 +311,7 @@
     <script>
     $(function(){
         $("#accountInfo").on("submit", function(){
+            var platform = $("select.platformType").val();
             var type = $("select.accountType").val();
             var id = $("input.accountNum").val();
             var tchan = $("input.twitchChan").val();
@@ -305,34 +328,36 @@
             });
             $('a').each(function(){
                 if(!$(this).hasClass("bungie")) {
-                    var _href = $(this).attr('href'); 
+                    var _href = $(this).attr('href');
+                    _href = _href.replace(/.*\:\/\/?([^\/]+)/, "http://"+platform); 
                     _href = _href.replace(/memType=[^&]+/, 'memType=' + type);
                     _href = _href.replace(/account=[^&]+/, 'account=' + id);
                     _href = _href.replace(/twitchAccount=[^&]+/, 'twitchAccount=' + tchan);
-                    console.log(_href);
                     
                     if(_href.indexOf("bgColor") != -1) {
                         _href = _href.replace(/bgColor=[^&]+/, 'bgColor=' + bgColor);
-                        $(this).text($(this).text().replace(/bgColor=[^&]+/, "bgColor="+bgColor));
-                        console.log("test");
                     } else {
                         _href = _href + "&bgColor="+bgColor;
-                        $(this).text($(this).text() + "&bgColor="+bgColor);
-                        console.log("test 2");
                     }
                     if(_href.indexOf("color") != -1) {
                         _href = _href.replace(/color=[^&]+/, 'color=' + color);
-                        $(this).text($(this).text().replace(/color=[^&]+/, "color="+color));
                     } else {
                         _href = _href + "&color="+color;
-                        $(this).text($(this).text() + "&color="+color);
                     }
+
+                    $(this).text(_href);
                     $(this).attr('href', _href);
                 }
             });
+
+            $("table tr td:nth-child(2)").each(function(){
+               $(this).text($(this).text().replace(/.*\:\/\/?([^\/]+)/, "$(urlfetch http://"+platform));
+            });
+
             $("span.formMsg").fadeIn(1000).delay(1000).fadeOut(1000);
             return false;
         });
+        
         $("#modeSelect").on("submit", function(){
             var mode = $("select.mode").val();
             $("span.mode").each(function(){

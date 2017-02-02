@@ -7,7 +7,7 @@
 <body>
     <div class="songContainer">
         <div class="songImg">
-            <img src="https://www.dropbox.com/s/x1kqmfwbhvjmdh6/Snip_Artwork.jpg?raw=1"/>
+            <img src="<%- songIMG %>"/>
         </div>
         <div class="sContainer">
             <div class="artist"></div>
@@ -20,7 +20,7 @@
         var currentSong = "";
         function update() {
             $.ajax({
-                url: "/stream/song",
+                url: "/stream/song?url="+"<%- song %>",
                 context: document.body
             }).done(function(data) {
                 if(currentSong !== data) {
