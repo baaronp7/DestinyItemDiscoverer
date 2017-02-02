@@ -5,9 +5,139 @@ var partial = require('express-partial');
 var less = require('less-middleware');
 var app = express();
 passport = require('passport');
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
 
 var destinyAPI = require('./destinyPlatformAPI');
 var destinyNightBot = require('./destinyNightBot');
+
+var mongurl = 'mongodb://baaronp7:Acts2.38@ds053778.mlab.com:53778/heroku_pw18gq42';
+var mongoJSON;
+var weaponsListJSON;
+var findWeapons = function(db, callback) {
+  // Get the weapons collection 
+  var collection = db.collection('weapons');
+  // Find some documents 
+  collection.find({}).toArray(function(err, items) {
+    assert.equal(null, err);
+    assert.equal(180, items.length);
+    console.log("Found the following records");
+    callback(items);
+  });
+}
+
+var insertWeaponsList = function(db, callback) {
+  db.collection('weaponsList').insertOne(weaponsListJSON, function(err, result) {
+    assert.equal(err, null);
+    console.log("Updated Weapons List.");
+    callback();
+  });
+}
+
+var buildWeaponList = function(){
+  var jsonStrs = {"0":[{id: 0, type: 0, name: "Auto Rifle", json: "[", count: 0},{id: 1, type: 0, name: "Hand Cannon", json: "[", count: 0},{id: 2, type: 0, name: "Pulse Rifle", json: "[", count: 0},{id: 3, type: 0, name: "Scout Rifle", json: "[", count: 0}],"1":[{id: 4, type: 1, name: "Fusion Rifle", json: "[", count: 0},{id: 5, type: 1, name: "Shotgun", json: "[", count: 0},{id: 6, type: 1, name: "Sniper Rifle", json: "[", count: 0}],"2":[{id: 7, type: 2, name: "Machine Gun", json: "[", count: 0},{id: 8, type: 2, name: "Rocket Launcher", json: "[", count: 0}]};
+  for(var item in mongoJSON){
+    var i;
+    var j;
+    if(mongoJSON[item].Type == jsonStrs[0][0].name) {
+      i = 0;
+      j = 0;
+    }
+    else if(mongoJSON[item].Type == jsonStrs[0][1].name) {
+      i = 0;
+      j = 1;
+    }
+    else if(mongoJSON[item].Type == jsonStrs[0][2].name) {
+      i = 0;
+      j = 2;
+    }
+    else if(mongoJSON[item].Type == jsonStrs[0][3].name) {
+      i = 0;
+      j = 3;
+    }
+    else if(mongoJSON[item].Type == jsonStrs[1][0].name) {
+      i = 1;
+      j = 0;
+    }
+    else if(mongoJSON[item].Type == jsonStrs[1][1].name) {
+      i = 1;
+      j = 1;
+    }
+    else if(mongoJSON[item].Type == jsonStrs[1][2].name) {
+      i = 1;
+      j = 2;
+    }
+    else if(mongoJSON[item].Type == jsonStrs[2][0].name) {
+      i = 2;
+      j = 0;
+    }
+    else {
+      i = 2;
+      j = 1;
+    }
+    var json = jsonStrs[i][j].json;
+    var count = jsonStrs[i][j].count;
+    json = json+'{'+
+    '"id":'+count+','+
+    '"name":"'+mongoJSON[item].Name+'",'+
+    '"light":"'+mongoJSON[item].Light+'",'+
+    '"dmg":"'+mongoJSON[item].Dmg+'",';
+    var perks = "";
+    var node = mongoJSON[item].Nodes;
+    if(node.slice(-1) == "*")
+      perks = perks + node.substring(0, node.length-1) + ", ";
+    id = 21;
+    while(mongoJSON[item]["field"+id] !== "") {
+      var field = mongoJSON[item]["field"+id];
+      if(field.slice(-1) == "*")
+        perks = perks + field.substring(0, field.length-1) + ", ";
+      id++;
+    }
+    perks = perks.substring(0, perks.length-2);
+    json = json+'"perks":"'+perks+'",'+
+    '"votes":0'+
+    '},';
+    jsonStrs[i][j].count = count + 1;
+    jsonStrs[i][j].json = json;
+  }
+  for(var i in jsonStrs) {
+    for(var j in jsonStrs[i]) {
+      jsonStrs[i][j].json = jsonStrs[i][j].json.substring(0, jsonStrs[i][j].json.length-1);
+      jsonStrs[i][j].json = jsonStrs[i][j].json+"]";
+      jsonStrs[i][j].json = JSON.parse(jsonStrs[i][j].json);
+    }
+  }
+  weaponsListJSON = jsonStrs;
+}
+
+var weaponListVote = function(type, wclass, id, callback) {
+  //make this function update the weaponList in db
+  try {
+    var weapon = weaponsListJSON[type][wclass].json[id];
+    weapon.votes = weapon.votes + 1;
+    weaponsListJSON[type][wclass].json[id] = weapon;
+    console.log(weapon);
+    callback("Weapon Voted For");
+  }
+  catch(err) {
+    var weapon = weaponsListJSON[type][wclass].json[id];
+    callback("Could Not Find Weapons");
+  }
+}
+
+MongoClient.connect(mongurl, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected correctly to server");
+ 
+  findWeapons(db, function(items) {
+    console.log("Added items to mongoJSON");
+    mongoJSON = items;
+    buildWeaponList();
+    insertWeaponsList(db, function() {
+      db.close();
+    });
+  });
+});
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -54,6 +184,30 @@ app.get('/auth/twitchtv/callback',
     res.redirect('/');
   }
 );
+
+app.get('/mongo/weaponsData', function (req, res) {
+  res.render('pages/json', {
+      json: JSON.stringify(mongoJSON)
+  });
+});
+
+app.get('/mongo/weaponsList', function (req, res) {
+  buildWeaponList();
+  res.render('pages/json', {
+    json: JSON.stringify(weaponsListJSON)
+  });
+});
+
+app.get('/mongo/weaponsList/vote', function (req, res) {
+  var tid = req.query.tid;
+  var wclass = req.query.wclass;
+  var wid = req.query.wid;
+  var resMsg;
+  weaponListVote(tid, wclass, wid, function(msg){ resMsg=msg; });
+  res.render('pages/json', {
+    json: resMsg
+  });
+});
 
 app.get('/home', function (req, res) {
   var categories = req.query.categories;

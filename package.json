@@ -22,7 +22,8 @@
     "tough-cookie": "^2.3.2",
     "zombie": "^4.2.1",
     "passport": ">= 0.0.0",
-    "passport-twitchtv": ">= 0.0.0"
+    "passport-twitchtv": ">= 0.0.0",
+	  "mongodb": "^2.2.22"
   },
   "scripts": {
     "start": "node server.js"
